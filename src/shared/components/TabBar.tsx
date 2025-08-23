@@ -1,19 +1,23 @@
 import React from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { useActiveTab, useNavigateToTab, TabName } from '../store/tabStore';
+
+// SVG 아이콘 import
+import PencilIcon from '../../../assets/svgs/Pencil.svg';
+import CalendarIcon from '../../../assets/svgs/Calendar.svg';
+import DotsIcon from '../../../assets/svgs/Dots.svg';
 
 // 탭 정보 타입
 interface TabInfo {
   name: TabName;
-  label: string;
-  icon?: string;
+  icon: React.ComponentType<any>;
 }
 
 // 탭 정보 배열
 const tabs: TabInfo[] = [
-  { name: 'Home', label: '홈' },
-  { name: 'Calendar', label: '캘린더' },
-  { name: 'Profile', label: '프로필' },
+  { name: 'Home', icon: PencilIcon },
+  { name: 'Calendar', icon: CalendarIcon },
+  { name: 'Profile', icon: DotsIcon },
 ];
 
 export const TabBar = () => {
@@ -25,24 +29,26 @@ export const TabBar = () => {
   };
 
   return (
-    <View className="flex-row bg-white border-t border-gray-200 pb-5 pt-2.5 px-4 shadow-lg">
-      {tabs.map((tab) => {
+    <View className="absolute bottom-8 self-center flex-row bg-background border border-4 border-line rounded-full shadow-lg px-6 py-3">
+      {tabs.map((tab, index) => {
         const isActive = activeTab === tab.name;
+        const Icon = tab.icon;
         
         return (
           <TouchableOpacity
             key={tab.name}
-            className={`flex-1 items-center py-2 px-3 rounded-lg ${
-              isActive ? 'bg-gray-100' : ''
+            className={`items-center justify-center w-12 h-12 rounded-full mx-2 ${
+              isActive ? 'bg-black' : 'bg-transparent'
             }`}
             onPress={() => handleTabPress(tab.name)}
             activeOpacity={0.7}
           >
-            <Text className={`text-sm font-medium ${
-              isActive ? 'text-black font-semibold' : 'text-gray-600'
-            }`}>
-              {tab.label}
-            </Text>
+            <Icon 
+              width={22} 
+              height={22} 
+              stroke={isActive ? 'white' : 'black'}
+              fill="none"
+            />
           </TouchableOpacity>
         );
       })}
