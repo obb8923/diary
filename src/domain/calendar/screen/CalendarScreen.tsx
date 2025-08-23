@@ -22,9 +22,6 @@ export const CalendarScreen = () => {
       <ScrollView className="flex-1 px-4 py-6">
         {/* 헤더 */}
         <View className="mb-6">
-          <Text className="text-2xl font-p-semibold text-text-black mb-2">
-            캘린더
-          </Text>
           {selectedDate && (
             <Text className="text-base text-gray-600">
               선택된 날짜: {formatSelectedDate(selectedDate)}

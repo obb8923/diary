@@ -8,9 +8,7 @@ import { Diary } from '@domain/home/components/Diary';
 export const HomeScreen = () => {
   return (
     <Background isStatusBarGap={true} isTabBarGap={true}>
-      <View className="flex-1 items-center justify-center">
       <Diary />
-      </View>
     </Background>
   );
 }
