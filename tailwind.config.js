@@ -23,6 +23,7 @@ module.exports = {
         'line': '#BAD5DD',
 
       },
+
     },
   },
   plugins: [],
