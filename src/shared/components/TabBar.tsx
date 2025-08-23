@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import { View, TouchableOpacity, Alert } from 'react-native';
-import { useActiveTab, useNavigateToTab, TabName } from '../store/tabStore';
-import { Button } from './Button';
-import { useDiary } from '../libs/hooks/useDiary';
+import { useActiveTab, TabName, useSetActiveTab } from '@store/tabStore';
+import { Button } from '@components/Button';
+import { useDiary } from '@libs/hooks/useDiary';
+import { useGemini } from '@libs/hooks/useGemini';
 // SVG 아이콘 import
-import PencilIcon from '../../../assets/svgs/Pencil.svg';
-import CalendarIcon from '../../../assets/svgs/Calendar.svg';
-import DotsIcon from '../../../assets/svgs/Dots.svg';
+import PencilIcon from '@assets/svgs/Pencil.svg';
+import CalendarIcon from '@assets/svgs/Calendar.svg';
+import DotsIcon from '@assets/svgs/Dots.svg';
 
 // 탭 정보 타입
 interface TabInfo {
@@ -23,17 +24,22 @@ const tabs: TabInfo[] = [
 
 export const TabBar = () => {
   const activeTab = useActiveTab();
-  const navigateToTab = useNavigateToTab();
-  const { saveDiary, isLoading, error } = useDiary();
+  const setActiveTab = useSetActiveTab();
+  const { saveDiary, isLoading, error: diaryError, currentContent } = useDiary();
+  const { generateComment, isGenerating, error: geminiError } = useGemini();
 
   const handleTabPress = (tabName: TabName) => {
-    navigateToTab(tabName);
+    setActiveTab(tabName);
   };
 
   const handleSavePress = async () => {
     try {
-      // 일기 저장 실행
-      await saveDiary();
+      // 단계 1: AI 코멘트 생성
+      const comment = await generateComment(currentContent);
+      
+      // 단계 2: 일기 저장
+      await saveDiary(comment);
+      
       // 저장 성공 피드백
       Alert.alert(
         '저장 완료!', 
@@ -42,23 +48,23 @@ export const TabBar = () => {
       );
       
     } catch (error) {
-      // 에러는 store에서 이미 처리되므로 여기서는 추가 피드백만
       console.error('저장 오류:', error);
     }
   };
   
   // 에러가 있으면 Alert로 표시
   useEffect(() => {
+    const error = diaryError || geminiError;
     if (error) {
       Alert.alert(
-        '저장 실패', 
+        '오류 발생', 
         error,
         [
           { text: '확인', onPress: () => {} }
         ]
       );
     }
-  }, [error]);
+  }, [diaryError, geminiError]);
 
   return (
     <View className="absolute bottom-8 self-center flex-row bg-text-black/80  rounded-full shadow-lg px-6 py-3 items-center">
@@ -94,12 +100,16 @@ export const TabBar = () => {
           {/* 저장하기 버튼 */}
           <View className="justify-center items-center max-w-1/2"> 
           <Button
-            text={isLoading ? "저장중..." : "다 적었어요"}
+            text={
+              isGenerating ? "AI가 분석중..." :
+              isLoading ? "저장중..." : 
+              "다 적었어요"
+            }
             onPress={handleSavePress}
             textType="black"
-            className={`rounded-full w-auto px-4 ${isLoading ? 'opacity-50' : ''}`}
+            className={`rounded-full w-auto px-4 ${(isLoading || isGenerating) ? 'opacity-50' : ''}`}
             textClassName="text-text-black"
-            disabled={isLoading}
+            disabled={isLoading || isGenerating}
           />
           </View>
         </>

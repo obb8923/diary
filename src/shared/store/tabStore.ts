@@ -8,7 +8,7 @@ interface TabStore {
   // 현재 활성화된 탭
   activeTab: TabName;
   // 탭 이동
-  navigateToTab: (tab: TabName) => void;
+  setActiveTab: (tab: TabName) => void;
 }
 
 // Zustand 스토어 생성
@@ -17,11 +17,11 @@ export const useTabStore = create<TabStore>((set) => ({
   activeTab: 'Home',
 
   // 탭 이동
-  navigateToTab: (tab: TabName) => {
+  setActiveTab: (tab: TabName) => {
     set({ activeTab: tab });
   },
 }));
 
 // 편의성 훅들
 export const useActiveTab = () => useTabStore(state => state.activeTab);
-export const useNavigateToTab = () => useTabStore(state => state.navigateToTab);
+export const useSetActiveTab = () => useTabStore(state => state.setActiveTab);

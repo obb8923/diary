@@ -1,7 +1,6 @@
 import { useEffect, useCallback } from 'react';
 import { useDiaryStore } from '../../store/diaryStore';
 import { StorageService } from '../../services/storageService';
-import { GeminiService } from '../../services/geminiService';
 import { DiaryEntry } from '../../types/diary';
 import { WeatherNumber } from '../../constants/normal';
 import { formatDate } from '../date';
@@ -39,27 +38,20 @@ export const useDiary = () => {
   }, []); // 빈 의존성 배열로 한 번만 실행
   
   // 일기 저장 함수
-  const saveDiary = useCallback(async () => {
+  const saveDiary = useCallback(async (comment: string) => {
     const { currentDate, currentContent, currentWeather } = store;
     
     store.setIsLoading(true);
     store.setError(null);
     
     try {
-      if (!currentContent.trim()) {
-        throw new Error('일기 내용을 입력해주세요.');
-      }
-      
-      // Gemini API로 코멘트 생성
-      const geminiResponse = await GeminiService.generateComment(currentContent);
-      
       // 일기 엔트리 생성
       const dateString = formatDate(currentDate);
       
       const diaryEntry: DiaryEntry = {
         weather: currentWeather,
         content: currentContent.trim(),
-        comment: geminiResponse.comment,
+        comment: comment,
       };
       
       // AsyncStorage에 저장 (날짜를 키로 사용)
@@ -76,6 +68,7 @@ export const useDiary = () => {
       store.setError(errorMessage);
       store.setIsLoading(false);
       console.error('일기 저장 오류:', error);
+      throw error;
     }
   }, [store]);
   
