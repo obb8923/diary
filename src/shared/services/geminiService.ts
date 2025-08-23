@@ -1,11 +1,23 @@
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import { GeminiResponse } from '../types/diary';
-import { ENV } from '../config/environment';
+import { AI_API_KEY } from '@env';
 
+  
 export class GeminiService {
-  private static readonly API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
+  private static genAI: GoogleGenerativeAI | null = null;
   
   // 환경 설정에서 API 키 가져오기
-  private static readonly API_KEY = ENV.GEMINI_API_KEY;
+  private static readonly API_KEY = AI_API_KEY;
+  
+  private static getGenAI(): GoogleGenerativeAI {
+    if (!this.genAI) {
+      if (!this.API_KEY) {
+        throw new Error('Gemini API 키가 설정되지 않았습니다.');
+      }
+      this.genAI = new GoogleGenerativeAI(this.API_KEY);
+    }
+    return this.genAI;
+  }
   
   static async generateComment(diaryContent: string): Promise<GeminiResponse> {
     try {
@@ -21,60 +33,27 @@ export class GeminiService {
       
       코멘트만 간단히 작성해주세요.`;
 
-      const response = await fetch(`${this.API_URL}?key=${this.API_KEY}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          contents: [{
-            parts: [{
-              text: prompt
-            }]
-          }]
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error(`Gemini API 오류: ${response.status}`);
-      }
-
-      const data = await response.json();
-      const comment = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+      const genAI = this.getGenAI();
+      const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+      
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      const comment = response.text()?.trim();
       
       if (!comment) {
         throw new Error('Gemini API에서 유효한 응답을 받지 못했습니다.');
       }
-
-      // 간단한 감정 분석 (키워드 기반)
-      const sentiment = this.analyzeSentiment(comment);
-
       return {
-        comment,
-        sentiment
+        comment
       };
     } catch (error) {
       console.error('Gemini API 오류:', error);
       
       // 기본 코멘트 반환
       return {
-        comment: '오늘도 소중한 하루를 기록해주셨네요. 당신의 이야기는 언제나 의미가 있어요! ✨',
-        sentiment: 'positive'
+        comment: '오늘도 소중한 하루를 기록해주셨네요. 당신의 이야기는 언제나 의미가 있어요! ',
       };
     }
   }
 
-  private static analyzeSentiment(comment: string): 'positive' | 'neutral' | 'negative' {
-    const positiveWords = ['좋', '훌륭', '멋진', '대단', '행복', '기쁨', '감사', '사랑', '희망', '성장', '발전', '성공'];
-    const negativeWords = ['힘든', '어려운', '슬픈', '걱정', '불안', '스트레스', '실망', '후회'];
-    
-    const lowerComment = comment.toLowerCase();
-    
-    const positiveCount = positiveWords.filter(word => lowerComment.includes(word)).length;
-    const negativeCount = negativeWords.filter(word => lowerComment.includes(word)).length;
-    
-    if (positiveCount > negativeCount) return 'positive';
-    if (negativeCount > positiveCount) return 'negative';
-    return 'neutral';
-  }
 }

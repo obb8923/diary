@@ -6,5 +6,4 @@ export interface DiaryEntry {
 
 export interface GeminiResponse {
   comment: string;
-  sentiment?: 'positive' | 'neutral' | 'negative';
 }
