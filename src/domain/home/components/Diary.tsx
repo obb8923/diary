@@ -3,25 +3,13 @@ import { Text } from "@components/Text"
 import { TextBox } from "@components/TextBox"
 import { WeatherSelector } from "../../../shared/components/WeatherSelector"
 import { useDiary } from "../../../shared/libs/hooks/useDiary"
+import { formatSelectedDate } from "../../../shared/libs/date"
 
 export const Diary = () => {
   
   // useDiary 훅으로 상태와 액션 가져오기 (자동으로 init 처리됨)
-  const { currentDate, currentContent, setCurrentContent } = useDiary();
-  
-  // 선택된 날짜를 포맷팅
-  const formatSelectedDate = (date: Date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return { year, month, day };
-  };
-  
+  const { currentDate, currentContent, isToday, setCurrentContent } = useDiary();  
   const { year, month, day } = formatSelectedDate(currentDate);
-  
-  const handleContentChange = (text: string) => {
-    setCurrentContent(text);
-  };
 
   return (
     <View className='w-full h-full border border border-line'>
@@ -35,8 +23,9 @@ export const Diary = () => {
         
         <TextBox 
           value={currentContent}
-          onChangeText={handleContentChange}
-          placeholder="오늘 하루는 어땠나요? 자유롭게 적어보세요..."
+          onChangeText={(text)=>{
+            setCurrentContent(text);
+          }}
         />
     </View>
   )

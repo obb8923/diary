@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, TouchableOpacity, Alert } from 'react-native';
 import { useActiveTab, useNavigateToTab, TabName } from '../store/tabStore';
-import { useDiaryActions, useDiaryStatus } from '../store/diaryStore';
 import { Button } from './Button';
-
+import { useDiary } from '../libs/hooks/useDiary';
 // SVG 아이콘 import
 import PencilIcon from '../../../assets/svgs/Pencil.svg';
 import CalendarIcon from '../../../assets/svgs/Calendar.svg';
@@ -25,10 +24,7 @@ const tabs: TabInfo[] = [
 export const TabBar = () => {
   const activeTab = useActiveTab();
   const navigateToTab = useNavigateToTab();
-  
-  // 일기 관련 상태와 액션
-  const { saveDiary, clearError } = useDiaryActions();
-  const { isLoading, error } = useDiaryStatus();
+  const { saveDiary, isLoading, error } = useDiary();
 
   const handleTabPress = (tabName: TabName) => {
     navigateToTab(tabName);
@@ -36,12 +32,8 @@ export const TabBar = () => {
 
   const handleSavePress = async () => {
     try {
-      // 에러 초기화
-      clearError();
-      
       // 일기 저장 실행
       await saveDiary();
-      
       // 저장 성공 피드백
       Alert.alert(
         '저장 완료!', 
@@ -56,17 +48,17 @@ export const TabBar = () => {
   };
   
   // 에러가 있으면 Alert로 표시
-  React.useEffect(() => {
+  useEffect(() => {
     if (error) {
       Alert.alert(
         '저장 실패', 
         error,
         [
-          { text: '확인', onPress: clearError }
+          { text: '확인', onPress: () => {} }
         ]
       );
     }
-  }, [error, clearError]);
+  }, [error]);
 
   return (
     <View className="absolute bottom-8 self-center flex-row bg-text-black/80  rounded-full shadow-lg px-6 py-3 items-center">

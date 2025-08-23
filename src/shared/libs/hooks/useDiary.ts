@@ -84,6 +84,7 @@ export const useDiary = () => {
     currentDate: store.currentDate,
     currentContent: store.currentContent,
     currentWeather: store.currentWeather,
+    isToday: store.isToday,
     isLoading: store.isLoading,
     error: store.error,
     
