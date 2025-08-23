@@ -51,7 +51,7 @@ export class GeminiService {
       
       // 기본 코멘트 반환
       return {
-        comment: '오늘도 소중한 하루를 기록해주셨네요. 당신의 이야기는 언제나 의미가 있어요! ',
+        comment: '이런 하루하루의 기록이 나중엔 큰 보물이 될 거야',
       };
     }
   }
