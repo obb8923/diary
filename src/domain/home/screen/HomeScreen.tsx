@@ -1,10 +1,10 @@
 import React from 'react';
 import { View ,Text as RNText } from 'react-native';
-import Right from '../../../assets/svgs/ChevronRight.svg';
-import { Background } from '../../shared/components/Background';
-import { Text } from '../../shared/components/Text';
+import Right from '@assets/svgs/ChevronRight.svg';
+import { Background } from '@components/Background';
+import { Text } from '@components/Text';
 
-export function HomeScreen() {
+export const HomeScreen = () => {
   return (
     <Background isStatusBarGap={true}>
       <Right width={48} height={48} color="white" />
