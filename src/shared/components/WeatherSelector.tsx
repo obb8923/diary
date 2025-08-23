@@ -1,13 +1,13 @@
 import { TouchableOpacity } from "react-native"
-import { useDiaryStore } from '../store/diaryStore';
+import { useDiaryStore } from '@store/diaryStore';
 
 // 날씨 SVG 아이콘들 import
-import SunnyIcon from '../../../assets/svgs/weather/Sunny.svg';
-import RainyIcon from '../../../assets/svgs/weather/Rainy.svg';
-import CloudyIcon from '../../../assets/svgs/weather/Cloudy.svg';
-import WindyIcon from '../../../assets/svgs/weather/Windy.svg';
-import SnowyIcon from '../../../assets/svgs/weather/Snowy.svg';
-
+import SunnyIcon from '@assets/svgs/weather/Sunny.svg';
+import RainyIcon from '@assets/svgs/weather/Rainy.svg';
+import CloudyIcon from '@assets/svgs/weather/Cloudy.svg';
+import WindyIcon from '@assets/svgs/weather/Windy.svg';
+import SnowyIcon from '@assets/svgs/weather/Snowy.svg';
+import {Colors} from '@constants/Colors'
 export const WeatherSelector = () => {
   // 전역 상태에서 현재 날씨 가져오기
   const currentWeather = useDiaryStore(state => state.currentWeather);
@@ -32,7 +32,7 @@ export const WeatherSelector = () => {
   
   return (
     <TouchableOpacity onPress={handleWeatherPress} >
-      <WeatherIcon width={25} height={25} />
+      <WeatherIcon width={24} height={24} color={Colors.textBlack}/>
     </TouchableOpacity>
   );
 };
