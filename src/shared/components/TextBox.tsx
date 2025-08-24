@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextInput, View, TextInputProps } from 'react-native';
+import { TextInput, Text as RNText, View, TextInputProps } from 'react-native';
 import { Text } from '@components/Text';
 import { useDiary } from '@libs/hooks/useDiary';
 
@@ -47,7 +47,7 @@ export const TextBox = ({
   return (
     <View className="flex-1 relative">
       {/* 일기장 라인 배경 */}
-      <View className="absolute inset-0" style={{ paddingTop: paddingTop, paddingLeft: 4, paddingRight: 4 }}>
+      <View className="absolute inset-0" style={{ paddingTop: paddingTop, paddingLeft: 16, paddingRight: 16 }}>
         {Array.from({ length: numberOfLines }, (_, index) => (
           <View
             key={index}
@@ -61,7 +61,7 @@ export const TextBox = ({
       </View>
       
       <TextInput
-        className="font-kb2019 text-text-black text-base py-3 px-1 bg-transparent relative z-10"
+        className="font-kb2019 text-text-black text-base py-3 px-6 bg-transparent relative z-10"
         placeholder={placeholder}
         placeholderTextColor="#BAD5DD"
         value={text}
@@ -88,13 +88,14 @@ export const TextBox = ({
       {currentComment ? (
         <View
           pointerEvents="box-none"
-          className="absolute left-0 right-0 z-20 px-4"
+          className="absolute left-0 right-0 z-20 px-6"
           style={{ top: (alignFooterToLine ? snappedBottomY : bottomY) + footerSpacing }}
         >
           <Text 
             text={currentComment} 
             type="kb2023" 
-            className="text-base font-p-regular text-text-blue leading-6"
+            className="text-text-blue text-xl"
+            style={{ transform: [{ rotate: '-1deg' }] }}
           />
         </View>
       ) : null}

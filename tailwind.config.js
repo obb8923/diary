@@ -14,7 +14,7 @@ module.exports = {
         'p-extrabold': ['Pretendard-ExtraBold'],
         'p-black': ['Pretendard-Black'],
         'kb2019': ['KyoboHandwriting2019'],
-        'kb2023': ['KyoboHandwriting2023'],
+        'kb2023': ['KyoboHandwriting2023wsa'],
       },
       colors: {
         'background': '#FFFEFF',

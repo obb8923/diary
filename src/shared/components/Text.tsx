@@ -30,7 +30,7 @@ const fontStyle = (type: 'regular' | 'semibold' | 'extrabold' | 'black' | 'kb201
       };
     case 'kb2023':
       return {
-        fontFamily: 'KyoboHandwriting2023',
+        fontFamily: 'KyoboHandwriting2023wsa',
       };
     default:
       return {

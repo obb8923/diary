@@ -17,7 +17,7 @@
 		C8D11CDCF0414BCF8EEDEA9C /* Pretendard-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D4177C7FE0C44F62A64CB963 /* Pretendard-ExtraBold.otf */; };
 		C924619F8467433D8785EFC8 /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 66D62C31DA044DB89D0530E6 /* Pretendard-Regular.otf */; };
 		D34C08D50145BE4E12DCCDD3 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
-		B6F2E8706F8C4DB9A1841D36 /* KyoboHandwriting2023.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4A35628721E44213AE66CC01 /* KyoboHandwriting2023.otf */; };
+		301B904E21ED4BFD92039020 /* KyoboHandwriting2023wsa.otf in Resources */ = {isa = PBXBuildFile; fileRef = A6D49CE41DA2447FB4B29F9B /* KyoboHandwriting2023wsa.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,7 +36,7 @@
 		D4177C7FE0C44F62A64CB963 /* Pretendard-ExtraBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-ExtraBold.otf"; path = "../assets/fonts/Pretendard-ExtraBold.otf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FC5B8E69C0B74BF6B0E1E25A /* Pretendard-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Black.otf"; path = "../assets/fonts/Pretendard-Black.otf"; sourceTree = "<group>"; };
-		4A35628721E44213AE66CC01 /* KyoboHandwriting2023.otf */ = {isa = PBXFileReference; name = "KyoboHandwriting2023.otf"; path = "../assets/fonts/KyoboHandwriting2023.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A6D49CE41DA2447FB4B29F9B /* KyoboHandwriting2023wsa.otf */ = {isa = PBXFileReference; name = "KyoboHandwriting2023wsa.otf"; path = "../assets/fonts/KyoboHandwriting2023wsa.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,7 +119,7 @@
 				D4177C7FE0C44F62A64CB963 /* Pretendard-ExtraBold.otf */,
 				66D62C31DA044DB89D0530E6 /* Pretendard-Regular.otf */,
 				87E7E2E4BC2F40349F9DA64E /* Pretendard-SemiBold.otf */,
-				4A35628721E44213AE66CC01 /* KyoboHandwriting2023.otf */,
+				A6D49CE41DA2447FB4B29F9B /* KyoboHandwriting2023wsa.otf */,
 			);
 			name = Resources;
 			path = "";
@@ -193,7 +193,7 @@
 				C8D11CDCF0414BCF8EEDEA9C /* Pretendard-ExtraBold.otf in Resources */,
 				C924619F8467433D8785EFC8 /* Pretendard-Regular.otf in Resources */,
 				C02341951FDC4F569C120380 /* Pretendard-SemiBold.otf in Resources */,
-				B6F2E8706F8C4DB9A1841D36 /* KyoboHandwriting2023.otf in Resources */,
+				301B904E21ED4BFD92039020 /* KyoboHandwriting2023wsa.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
