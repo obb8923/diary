@@ -2,7 +2,7 @@ import { useEffect, useCallback } from 'react';
 import { useDiaryStore } from '../../store/diaryStore';
 import { StorageService } from '../../services/storageService';
 import { DiaryEntry } from '../../types/diary';
-import { WeatherNumber } from '../../constants/normal';
+import { WeatherNumber } from '../../constants/Weather';
 import { formatDate } from '../date';
 
 

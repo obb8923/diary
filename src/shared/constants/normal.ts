@@ -1,20 +1,24 @@
-// 날씨 타입을 숫자로 매핑 (0~4)
-export const WEATHER_TYPES = {
-  SUNNY: 0,
-  RAINY: 1,
-  CLOUDY: 2,
-  WINDY: 3,
-  SNOWY: 4,
-} as const;
+import { Dimensions} from "react-native";
+import { getRandomIndex } from "../libs/random";
 
-// 날씨 번호를 이름으로 변환하는 매핑
-export const WEATHER_NAMES = {
-  [WEATHER_TYPES.SUNNY]: 'sunny',
-  [WEATHER_TYPES.RAINY]: 'rainy',
-  [WEATHER_TYPES.CLOUDY]: 'cloudy',
-  [WEATHER_TYPES.WINDY]: 'windy',
-  [WEATHER_TYPES.SNOWY]: 'snowy',
-} as const;
+const { width, height } = Dimensions.get('window');
 
-// 날씨 타입 (0~4)
-export type WeatherNumber = 0 | 1 | 2 | 3 | 4;
+export const DEVICE_WIDTH = width;
+export const DEVICE_HEIGHT = height;
+
+// flower 이미지 리소스 모음 (정적 require 필요)
+export const FLOWER_IMAGES = [
+  require('../../../assets/pngs/flower1.png'),
+  require('../../../assets/pngs/flower2.png'),
+  require('../../../assets/pngs/flower3.png'),
+  require('../../../assets/pngs/flower4.png'),
+  require('../../../assets/pngs/flower5.png'),
+  require('../../../assets/pngs/flower6.png'),
+] as const;
+
+export const FLOWER_IMAGE_COUNT = FLOWER_IMAGES.length;
+
+export const pickRandomFlower = () => {
+  const index = getRandomIndex(FLOWER_IMAGES.length);
+  return FLOWER_IMAGES[index];
+}

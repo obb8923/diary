@@ -20,13 +20,17 @@ export const Diary = () => {
         </View>
         
         <View className="flex-1">
-          <TextBox 
-            value={currentContent}
-            onChangeText={(text)=>{
-              setCurrentContent(text);
-            }}
-          />
+          <TextBox />
         </View>
+
+        {isDiaryWrittenToday ? (
+          <View
+            className="absolute inset-0 z-50"
+            pointerEvents="auto"
+            // 하위 터치 차단용
+            onStartShouldSetResponder={() => true}
+          />
+        ) : null}
     </View>
   )
 }
