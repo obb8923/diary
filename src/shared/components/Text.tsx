@@ -1,12 +1,12 @@
 import {Text as RNText, TextStyle} from 'react-native';
 export type TextProps = {
     text: string;
-    type: 'regular' | 'semibold' | 'extrabold' | 'black';
+    type: 'regular' | 'semibold' | 'extrabold' | 'black' | 'kb2019' | 'kb2023';
     className?: string;
     style?: TextStyle | TextStyle[];
     numberOfLines?: number;
   };
-const fontStyle = (type: 'regular' | 'semibold' | 'extrabold' | 'black'): TextStyle => {
+const fontStyle = (type: 'regular' | 'semibold' | 'extrabold' | 'black' | 'kb2019' | 'kb2023'): TextStyle => {
   switch(type){
     case 'regular':
       return {
@@ -23,6 +23,14 @@ const fontStyle = (type: 'regular' | 'semibold' | 'extrabold' | 'black'): TextSt
     case 'black':
       return {
         fontFamily: 'Pretendard-Black',
+      };
+    case 'kb2019':
+      return {
+        fontFamily: 'KyoboHandwriting2019',
+      };
+    case 'kb2023':
+      return {
+        fontFamily: 'KyoboHandwriting2023',
       };
     default:
       return {

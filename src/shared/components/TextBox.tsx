@@ -61,7 +61,7 @@ export const TextBox = ({
       </View>
       
       <TextInput
-        className="font-p-regular text-text-black text-base py-3 px-1 bg-transparent relative z-10"
+        className="font-kb2019 text-text-black text-base py-3 px-1 bg-transparent relative z-10"
         placeholder={placeholder}
         placeholderTextColor="#BAD5DD"
         value={text}
@@ -77,6 +77,7 @@ export const TextBox = ({
           }
         }}
         style={{
+          fontFamily: 'KyoboHandwriting2019',
           lineHeight: lineHeight,
           textAlignVertical: 'top',
           minHeight: numberOfLines * lineHeight + 24, // 패딩 포함
@@ -92,7 +93,7 @@ export const TextBox = ({
         >
           <Text 
             text={currentComment} 
-            type="regular" 
+            type="kb2023" 
             className="text-base font-p-regular text-text-blue leading-6"
           />
         </View>
