@@ -8,32 +8,31 @@ import { formatDate } from '../date';
 
 export const useDiary = () => {
   const store = useDiaryStore();
-  
+  const initializeDiary = async () => {
+    try {
+      const today = new Date();
+      const todayString = formatDate(today);
+      
+      // 오늘 날짜의 일기가 있는지 확인
+      const todayEntry = await StorageService.getDiary(todayString);
+      
+      if (todayEntry) {
+        // 오늘 일기가 있으면 해당 내용으로 설정
+        store.setCurrentDate(today);
+        store.setCurrentContent(todayEntry.content);
+        store.setCurrentWeather(todayEntry.weather as WeatherNumber);
+        store.setCurrentComment(todayEntry.comment || ''); // AI 코멘트도 설정
+        store.setisDiaryWrittenToday(true);
+      } 
+      if(__DEV__) {
+        console.log('다이어리가 초기화되었습니다. 오늘 날짜:', todayString);
+      }
+    } catch (error) {
+      console.error('다이어리 초기화 오류:', error);
+    }
+  };
   // 초기화 로직
   useEffect(() => {
-    const initializeDiary = async () => {
-      try {
-        const today = new Date();
-        const todayString = formatDate(today);
-        
-        // 오늘 날짜의 일기가 있는지 확인
-        const todayEntry = await StorageService.getDiary(todayString);
-        
-        if (todayEntry) {
-          // 오늘 일기가 있으면 해당 내용으로 설정
-          store.setCurrentDate(today);
-          store.setCurrentContent(todayEntry.content);
-          store.setCurrentWeather(todayEntry.weather as WeatherNumber);
-          store.setIsToday(true);
-        } 
-        if(__DEV__) {
-          console.log('다이어리가 초기화되었습니다. 오늘 날짜:', todayString);
-        }
-      } catch (error) {
-        console.error('다이어리 초기화 오류:', error);
-      }
-    };
-    
     initializeDiary();
   }, []); // 빈 의존성 배열로 한 번만 실행
   
@@ -57,6 +56,9 @@ export const useDiary = () => {
       // AsyncStorage에 저장 (날짜를 키로 사용)
       await StorageService.saveDiary(dateString, diaryEntry);
       
+      // AI 코멘트를 현재 상태에도 저장
+      store.setCurrentComment(comment);
+      
       store.setIsLoading(false);
       
       if(__DEV__) {
@@ -77,7 +79,8 @@ export const useDiary = () => {
     currentDate: store.currentDate,
     currentContent: store.currentContent,
     currentWeather: store.currentWeather,
-    isToday: store.isToday,
+    currentComment: store.currentComment, // AI 코멘트 추가
+    isDiaryWrittenToday: store.isDiaryWrittenToday,
     isLoading: store.isLoading,
     error: store.error,
     
@@ -85,6 +88,8 @@ export const useDiary = () => {
     setCurrentDate: store.setCurrentDate,
     setCurrentContent: store.setCurrentContent,
     setCurrentWeather: store.setCurrentWeather,
+    setCurrentComment: store.setCurrentComment, // AI 코멘트 설정 액션 추가
+    initializeDiary,
     saveDiary,
   };
 };

@@ -89,7 +89,7 @@ export const Calendar = ({ onDateSelect, selectedDate }: CalendarProps) => {
   };
   
   // 오늘 날짜인지 확인
-  const isToday = (date: Date) => {
+  const isDiaryWrittenToday = (date: Date) => {
     const today = new Date();
     return (
       date.getFullYear() === today.getFullYear() &&
@@ -103,7 +103,7 @@ export const Calendar = ({ onDateSelect, selectedDate }: CalendarProps) => {
     if (isSelectedDate(date)) {
       return 'text-white';
     }
-    if (isToday(date)) {
+    if (isDiaryWrittenToday(date)) {
       return 'text-blue-600 font-semibold';
     }
     if (dayIndex === 0) { // 일요일
@@ -171,7 +171,7 @@ export const Calendar = ({ onDateSelect, selectedDate }: CalendarProps) => {
                   className={`w-10 h-10 justify-center items-center rounded-lg ${
                     isSelectedDate(date)
                       ? 'bg-blue-500'
-                      : isToday(date)
+                      : isDiaryWrittenToday(date)
                       ? 'bg-blue-100'
                       : 'bg-transparent'
                   }`}

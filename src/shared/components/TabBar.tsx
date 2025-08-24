@@ -4,11 +4,12 @@ import { useActiveTab, TabName, useSetActiveTab } from '@store/tabStore';
 import { Button } from '@components/Button';
 import { useDiary } from '@libs/hooks/useDiary';
 import { useGemini } from '@libs/hooks/useGemini';
+import { Text } from '@components/Text';
 // SVG 아이콘 import
 import PencilIcon from '@assets/svgs/Pencil.svg';
 import CalendarIcon from '@assets/svgs/Calendar.svg';
 import DotsIcon from '@assets/svgs/Dots.svg';
-
+import {Colors} from '@constants/Colors';
 // 탭 정보 타입
 interface TabInfo {
   name: TabName;
@@ -25,7 +26,7 @@ const tabs: TabInfo[] = [
 export const TabBar = () => {
   const activeTab = useActiveTab();
   const setActiveTab = useSetActiveTab();
-  const { saveDiary, isLoading, error: diaryError, currentContent } = useDiary();
+  const { initializeDiary, saveDiary, isLoading, error: diaryError, currentContent,isDiaryWrittenToday } = useDiary();
   const { generateComment, isGenerating, error: geminiError } = useGemini();
 
   const handleTabPress = (tabName: TabName) => {
@@ -36,14 +37,14 @@ export const TabBar = () => {
     try {
       // 단계 1: AI 코멘트 생성
       const comment = await generateComment(currentContent);
-      
       // 단계 2: 일기 저장
       await saveDiary(comment);
-      
-      // 저장 성공 피드백
+      // 단계 3: 오늘 날짜 초기화
+      await initializeDiary();
+      // 저장 성공 피드백 (AI 코멘트 포함)
       Alert.alert(
-        '저장 완료!', 
-        '일기가 성공적으로 저장되었습니다. ✨',
+        '저장 완료✨', 
+        `하루하루의 기록이 큰 보물이 될 거에요`,
         [{ text: '확인', style: 'default' }]
       );
       
@@ -57,7 +58,7 @@ export const TabBar = () => {
     const error = diaryError || geminiError;
     if (error) {
       Alert.alert(
-        '오류 발생', 
+        '오류가 발생했어요', 
         error,
         [
           { text: '확인', onPress: () => {} }
@@ -67,7 +68,10 @@ export const TabBar = () => {
   }, [diaryError, geminiError]);
 
   return (
-    <View className="absolute bottom-8 self-center flex-row bg-text-black/80  rounded-full shadow-lg px-6 py-3 items-center">
+    // 전체 컨테이너 (위치)
+    <View className="w-11/12 flex-row justify-between items-center absolute bottom-12 px-16">
+      {/* 탭 컨테이너 */}
+    <View className="w-5/12 flex-row bg-blue-500 rounded-full px-3 py-2 items-center justify-evenly">
       {tabs.map((tab, index) => {
         const isActive = activeTab === tab.name;
         const Icon = tab.icon;
@@ -75,8 +79,8 @@ export const TabBar = () => {
         return (
           <TouchableOpacity
             key={tab.name}
-            className={`items-center justify-center w-12 h-12 rounded-full mx-2 ${
-              isActive ? 'bg-white/20' : 'bg-transparent'
+            className={`items-center justify-center w-12 h-12 rounded-full ${
+              isActive ? 'bg-background' : 'bg-transparent'
             }`}
             onPress={() => handleTabPress(tab.name)}
             activeOpacity={0.7}
@@ -84,34 +88,32 @@ export const TabBar = () => {
             <Icon 
               width={22} 
               height={22} 
-              fill={isActive ? '#D1D5DB' : '#D1D5DB'}
-              color={isActive ? 'black' : '#D1D5DB'}
+              color={isActive ? Colors.blue500 : Colors.background}
             />
           </TouchableOpacity>
         );
       })}
       
-      {/* Home 탭일 때만 구분선과 저장하기 버튼 표시 */}
-      {activeTab === 'Home' && (
-        <>
-          {/* 구분선 */}
-          <View className="w-px h-8 bg-gray-300 mx-3" />
-          
-          {/* 저장하기 버튼 */}
-          <View className="justify-center items-center max-w-1/2"> 
-          <Button
-            text={
-              isGenerating ? "AI가 분석중..." :
-              isLoading ? "저장중..." : 
-              "다 적었어요"
-            }
+     
+    </View>
+    {/* 저장하기 버튼 */}
+     {/* Home 탭일 때만 구분선과 저장하기 버튼 표시 */}
+     {activeTab === 'Home' && currentContent.length > 10 && !isDiaryWrittenToday && (
+        <>                  
+           <TouchableOpacity
             onPress={handleSavePress}
-            textType="black"
-            className={`rounded-full w-auto px-4 ${(isLoading || isGenerating) ? 'opacity-50' : ''}`}
-            textClassName="text-text-black"
-            disabled={isLoading || isGenerating}
-          />
-          </View>
+            className={`w-auto h-16 rounded-full px-4 py-2 justify-center items-center bg-blue-500`}
+            >
+            <Text 
+              text={
+                    isGenerating ? "AI가 분석중..." :
+                    isLoading ? "저장중..." : 
+                    "다 적었어요!"
+                  } 
+              type="black" 
+              className={`text-center font-extrabold text-md text-background`}
+            />
+          </TouchableOpacity>
         </>
       )}
     </View>
