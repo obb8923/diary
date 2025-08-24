@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0C80B921A6F3F58F76C31292 /* libPods-diary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-diary.a */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		301B904E21ED4BFD92039020 /* KyoboHandwriting2023wsa.otf in Resources */ = {isa = PBXBuildFile; fileRef = A6D49CE41DA2447FB4B29F9B /* KyoboHandwriting2023wsa.otf */; };
 		4693374761CB4EDDBE6B3063 /* KyoboHandwriting2019.otf in Resources */ = {isa = PBXBuildFile; fileRef = A3E6D313A0684A00A4827A3C /* KyoboHandwriting2019.otf */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		7EEE0A745BE940E797E9ED78 /* Pretendard-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = FC5B8E69C0B74BF6B0E1E25A /* Pretendard-Black.otf */; };
@@ -17,7 +18,6 @@
 		C8D11CDCF0414BCF8EEDEA9C /* Pretendard-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = D4177C7FE0C44F62A64CB963 /* Pretendard-ExtraBold.otf */; };
 		C924619F8467433D8785EFC8 /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 66D62C31DA044DB89D0530E6 /* Pretendard-Regular.otf */; };
 		D34C08D50145BE4E12DCCDD3 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
-		301B904E21ED4BFD92039020 /* KyoboHandwriting2023wsa.otf in Resources */ = {isa = PBXBuildFile; fileRef = A6D49CE41DA2447FB4B29F9B /* KyoboHandwriting2023wsa.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,10 +33,10 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = diary/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		87E7E2E4BC2F40349F9DA64E /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-SemiBold.otf"; path = "../assets/fonts/Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 		A3E6D313A0684A00A4827A3C /* KyoboHandwriting2019.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = KyoboHandwriting2019.otf; path = ../assets/fonts/KyoboHandwriting2019.otf; sourceTree = "<group>"; };
+		A6D49CE41DA2447FB4B29F9B /* KyoboHandwriting2023wsa.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = KyoboHandwriting2023wsa.otf; path = ../assets/fonts/KyoboHandwriting2023wsa.otf; sourceTree = "<group>"; };
 		D4177C7FE0C44F62A64CB963 /* Pretendard-ExtraBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-ExtraBold.otf"; path = "../assets/fonts/Pretendard-ExtraBold.otf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FC5B8E69C0B74BF6B0E1E25A /* Pretendard-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Pretendard-Black.otf"; path = "../assets/fonts/Pretendard-Black.otf"; sourceTree = "<group>"; };
-		A6D49CE41DA2447FB4B29F9B /* KyoboHandwriting2023wsa.otf */ = {isa = PBXFileReference; name = "KyoboHandwriting2023wsa.otf"; path = "../assets/fonts/KyoboHandwriting2023wsa.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
