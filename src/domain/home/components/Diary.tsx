@@ -15,15 +15,17 @@ export const Diary = () => {
     <View className='w-full h-full border border border-line'>
         {/* 날짜, 날씨 영역 */}
         <View className="flex-row items-center justify-center border-b border-line p-2">
+          <View className="flex-row items-center justify-end flex-1">
           <Text text={`${year}`} type="kb2019" className="text-text-black text-xl"/>
           <Text text=' 년  ' type="black" className="text-text-black text-xl"/>
-
           <Text text={`${month}`} type="kb2019" className="text-text-black text-xl"/>
           <Text text=' 월  ' type="black" className="text-text-black text-xl"/>
           <Text text={`${day}`} type="kb2019" className="text-text-black text-xl"/>
           <Text text=' 일  ' type="black" className="text-text-black text-xl"/>
-          <Text text='날씨:  ' type="black" className="text-text-black text-xl"/>
+          </View>
+          <View className="flex-row items-center justify-start w-5/12">
           <WeatherSelector />
+          </View>
         </View>
         
         <View className="flex-1">

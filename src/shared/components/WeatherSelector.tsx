@@ -1,7 +1,6 @@
 import { TouchableOpacity } from "react-native"
 import { useDiaryStore } from '@store/diaryStore';
 import { Text } from '@components/Text';
-import {Colors} from '@constants/Colors'
 export const WeatherSelector = () => {
   // 전역 상태에서 현재 날씨 가져오기
   const currentWeather = useDiaryStore(state => state.currentWeather);
@@ -25,8 +24,9 @@ export const WeatherSelector = () => {
   const label = weatherLabels[currentWeather] || weatherLabels[0]; // 안전장치
   
   return (
-    <TouchableOpacity onPress={handleWeatherPress} >
-      <Text text={label} type='kb2019' className="text-text-black text-xl"/>
+    <TouchableOpacity onPress={handleWeatherPress} className="flex-row items-center justify-center">
+      <Text text='날씨:  ' type="black" className="text-text-black text-xl"/>
+      <Text text={label} type='kb2019' className="text-text-black text-xl text-center w-10 "/>
     </TouchableOpacity>
   );
 };
