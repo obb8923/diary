@@ -1,5 +1,7 @@
+import { WeatherNumber } from '../constants/Weather';
+
 export interface DiaryEntry {
-  weather: number; // 0~5
+  weather: WeatherNumber; // 0~4
   content: string;
   comment: string;
   flowerIndex?: number; // 1~6 중 하나 (저장 이미지 선택)

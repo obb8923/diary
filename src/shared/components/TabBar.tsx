@@ -10,6 +10,7 @@ import PencilIcon from '@assets/svgs/Pencil.svg';
 import CalendarIcon from '@assets/svgs/Calendar.svg';
 import DotsIcon from '@assets/svgs/Dots.svg';
 import {Colors} from '@constants/Colors';
+import { getRandomInt } from '@libs/random';
 // 탭 정보 타입
 interface TabInfo {
   name: TabName;
@@ -37,8 +38,10 @@ export const TabBar = () => {
     try {
       // 단계 1: AI 코멘트 생성
       const comment = await generateComment(currentContent);
+      // flowerIndex 1~6 랜덤 선택
+      const flowerIndex = getRandomInt(1, 7); // [1,7) => 1~6
       // 단계 2: 일기 저장
-      await saveDiary(comment);
+      await saveDiary(comment, flowerIndex);
       // 단계 3: 오늘 날짜 초기화
       await initializeDiary();
       // 저장 성공 피드백 (AI 코멘트 포함)

@@ -7,6 +7,7 @@ interface DiaryStore {
   currentContent: string;
   currentWeather: WeatherNumber; 
   currentComment: string; 
+  currentFlowerIndex?: number; // 1~6
   isDiaryWrittenToday: boolean;
   // UI 상태
   isLoading: boolean;
@@ -17,6 +18,7 @@ interface DiaryStore {
   setCurrentContent: (content: string) => void;
   setCurrentWeather: (weather: WeatherNumber) => void;
   setCurrentComment: (comment: string) => void; 
+  setCurrentFlowerIndex: (index: number | undefined) => void;
   setisDiaryWrittenToday: (isDiaryWrittenToday: boolean) => void;
   setIsLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
@@ -28,6 +30,7 @@ export const useDiaryStore = create<DiaryStore>((set, get) => ({
   currentContent: '',
   currentWeather: 0,
   currentComment: '', // AI 코멘트 초기값 추가
+  currentFlowerIndex: undefined,
   isDiaryWrittenToday: false,
   isLoading: false,
   error: null,
@@ -47,6 +50,10 @@ export const useDiaryStore = create<DiaryStore>((set, get) => ({
   
   setCurrentComment: (comment: string) => {
     set({ currentComment: comment });
+  },
+  
+  setCurrentFlowerIndex: (index?: number) => {
+    set({ currentFlowerIndex: index });
   },
   
   setisDiaryWrittenToday: (isDiaryWrittenToday: boolean) => {

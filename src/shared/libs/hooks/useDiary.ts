@@ -22,6 +22,7 @@ export const useDiary = () => {
         store.setCurrentContent(todayEntry.content);
         store.setCurrentWeather(todayEntry.weather as WeatherNumber);
         store.setCurrentComment(todayEntry.comment || ''); // AI 코멘트도 설정
+        store.setCurrentFlowerIndex(todayEntry.flowerIndex);
         store.setisDiaryWrittenToday(true);
       } 
       if(__DEV__) {
@@ -37,7 +38,7 @@ export const useDiary = () => {
   }, []); // 빈 의존성 배열로 한 번만 실행
   
   // 일기 저장 함수
-  const saveDiary = useCallback(async (comment: string) => {
+  const saveDiary = useCallback(async (comment: string, flowerIndex: number) => {
     const { currentDate, currentContent, currentWeather } = store;
     
     store.setIsLoading(true);
@@ -51,13 +52,15 @@ export const useDiary = () => {
         weather: currentWeather,
         content: currentContent.trim(),
         comment: comment,
+        flowerIndex: flowerIndex,
       };
       
       // AsyncStorage에 저장 (날짜를 키로 사용)
       await StorageService.saveDiary(dateString, diaryEntry);
       
-      // AI 코멘트를 현재 상태에도 저장
+      // 현재 상태에도 저장
       store.setCurrentComment(comment);
+      store.setCurrentFlowerIndex(flowerIndex);
       
       store.setIsLoading(false);
       
@@ -80,6 +83,7 @@ export const useDiary = () => {
     currentContent: store.currentContent,
     currentWeather: store.currentWeather,
     currentComment: store.currentComment, // AI 코멘트 추가
+    currentFlowerIndex: store.currentFlowerIndex,
     isDiaryWrittenToday: store.isDiaryWrittenToday,
     isLoading: store.isLoading,
     error: store.error,
@@ -89,6 +93,7 @@ export const useDiary = () => {
     setCurrentContent: store.setCurrentContent,
     setCurrentWeather: store.setCurrentWeather,
     setCurrentComment: store.setCurrentComment, // AI 코멘트 설정 액션 추가
+    setCurrentFlowerIndex: store.setCurrentFlowerIndex,
     initializeDiary,
     saveDiary,
   };

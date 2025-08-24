@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { TextInput, View, Image } from 'react-native';
 import { Text } from '@components/Text';
 import { useDiary } from '@libs/hooks/useDiary';
-import { DEVICE_WIDTH, pickRandomFlower } from '@constants/normal';
+import { DEVICE_WIDTH, FLOWER_IMAGES } from '@constants/normal';
 export const TextBox = () => {
-  const { currentComment, currentContent,setCurrentContent,isDiaryWrittenToday } = useDiary();
+  const { currentComment, currentContent,setCurrentContent,isDiaryWrittenToday, currentFlowerIndex } = useDiary();
   const [text, setText] = useState('');
   const [contentHeight, setContentHeight] = useState(0);
   const [containerWidth, setContainerWidth] = useState(DEVICE_WIDTH);
-  const [flowerSource] = useState(pickRandomFlower()); // 최초 1회 랜덤 고정
+  // 저장된 인덱스(1~6)를 소스에 매핑. 유효하지 않으면 1번 사용
+  const flowerSource = FLOWER_IMAGES[(Math.max(1, Math.min((currentFlowerIndex || 1), FLOWER_IMAGES.length)) - 1)];
   const resolved = Image.resolveAssetSource(flowerSource);//원본 크기 추출하기 위함
   const horizontalPadding = 16;
   const availableWidth = Math.max(0, containerWidth - horizontalPadding * 2);
