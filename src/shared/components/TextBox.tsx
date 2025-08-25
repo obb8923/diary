@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { TextInput, View, Image } from 'react-native';
+import { TextInput, View, Image, Platform } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Text } from '@components/Text';
 import { useDiary } from '@libs/hooks/useDiary';
 import { DEVICE_WIDTH, FLOWER_IMAGES } from '@constants/normal';
+import { KeyboardAccessoryBar } from '@components/KeyboardAccessoryBar';
 export const TextBox = () => {
   const { currentComment, currentContent,setCurrentContent,isDiaryWrittenToday, currentFlowerIndex } = useDiary();
   const [text, setText] = useState('');
@@ -24,6 +26,8 @@ export const TextBox = () => {
     setText(currentContent || '');
   }, [currentContent]);
 
+  // 액세서리 바는 별도 컴포넌트가 제어
+
   // 일기장 라인을 위한 라인 개수 계산
   const numberOfLines = 20; // 기본 20줄
   const lineHeight = 24;
@@ -39,7 +43,15 @@ export const TextBox = () => {
   const snappedBottomY = paddingTop + Math.ceil(baseHeightForSnap / lineHeight) * lineHeight + defaultSpacing;
 
   return (
-    <View className="flex-1 relative" onLayout={(e) => setContainerWidth(e.nativeEvent.layout.width)}>
+    <View style={{ flex: 1 }}>
+      <KeyboardAwareScrollView
+        style={{ flex: 1 }}
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: Platform.OS === 'android' ? 56 : 0 }}
+        enableOnAndroid
+        keyboardShouldPersistTaps="handled"
+        extraScrollHeight={24}
+      >
+        <View className="flex-1 relative" onLayout={(e) => setContainerWidth(e.nativeEvent.layout.width)}>
       {/* 일기장 라인 배경 */}
       <View className="absolute inset-0" style={{ paddingTop: paddingTop, paddingLeft: 16, paddingRight: 16 }}>
         {Array.from({ length: numberOfLines }, (_, index) => (
@@ -59,6 +71,7 @@ export const TextBox = () => {
         placeholder=""
         placeholderTextColor="#BAD5DD"
         autoFocus={!isDiaryWrittenToday}
+        inputAccessoryViewID={'DiaryAccessory'}
         value={text}
         onChangeText={handleTextChange}
         multiline
@@ -94,20 +107,24 @@ export const TextBox = () => {
         </View>
       ) : null}
 
-      {currentComment ? (
-        <View
-          pointerEvents="box-none"
-          className="absolute left-0 right-0 z-20 px-6"
-          style={{ top: snappedBottomY  }}
-        >
-          <Text 
-            text={currentComment} 
-            type="kb2023" 
-            className="text-text-blue text-xl"
-            style={{ transform: [{ rotate: '-1deg' }] }}
-          />
+        {currentComment ? (
+          <View
+            pointerEvents="box-none"
+            className="absolute left-0 right-0 z-20 px-6"
+            style={{ top: snappedBottomY  }}
+          >
+            <Text 
+              text={currentComment} 
+              type="kb2023" 
+              className="text-text-blue text-xl"
+              style={{ transform: [{ rotate: '-1deg' }] }}
+            />
+          </View>
+        ) : null}
         </View>
-      ) : null}
+      </KeyboardAwareScrollView>
+
+      <KeyboardAccessoryBar />
     </View>
   );
 };

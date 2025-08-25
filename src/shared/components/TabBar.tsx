@@ -3,7 +3,7 @@ import { View, TouchableOpacity, Alert } from 'react-native';
 import { useActiveTab, TabName, useSetActiveTab } from '@store/tabStore';
 import { Button } from '@components/Button';
 import { useDiary } from '@libs/hooks/useDiary';
-import { useGemini } from '@libs/hooks/useGemini';
+import { useSaveDiaryFlow } from '@libs/hooks/useSaveDiaryFlow';
 import { Text } from '@components/Text';
 // SVG 아이콘 import
 import PencilIcon from '@assets/svgs/Pencil.svg';
@@ -27,33 +27,21 @@ const tabs: TabInfo[] = [
 export const TabBar = () => {
   const activeTab = useActiveTab();
   const setActiveTab = useSetActiveTab();
-  const { initializeDiary, saveDiary, isLoading, error: diaryError, currentContent,isDiaryWrittenToday } = useDiary();
-  const { generateComment, isGenerating, error: geminiError } = useGemini();
+  const { error: diaryError } = useDiary();
+  const { canSave, isSaving, save } = useSaveDiaryFlow();
+  const geminiError = null; // 훅 내부에서 처리되므로 외부 에러 합산 제거
 
   const handleTabPress = (tabName: TabName) => {
     setActiveTab(tabName);
   };
 
   const handleSavePress = async () => {
-    try {
-      // 단계 1: AI 코멘트 생성
-      const comment = await generateComment(currentContent);
-      // flowerIndex 1~6 랜덤 선택
-      const flowerIndex = getRandomInt(1, 7); // [1,7) => 1~6
-      // 단계 2: 일기 저장
-      await saveDiary(comment, flowerIndex);
-      // 단계 3: 오늘 날짜 초기화
-      await initializeDiary();
-      // 저장 성공 피드백 (AI 코멘트 포함)
-      Alert.alert(
-        '저장 완료✨', 
-        `하루하루의 기록이 큰 보물이 될 거에요`,
-        [{ text: '확인', style: 'default' }]
-      );
-      
-    } catch (error) {
-      console.error('저장 오류:', error);
-    }
+    await save();
+    Alert.alert(
+      '저장 완료✨', 
+      `하루하루의 기록이 큰 보물이 될 거에요`,
+      [{ text: '확인', style: 'default' }]
+    );
   };
   
   // 에러가 있으면 Alert로 표시
@@ -99,9 +87,8 @@ export const TabBar = () => {
       
      
     </View>
-    {/* 저장하기 버튼 */}
-     {/* Home 탭일 때만 구분선과 저장하기 버튼 표시 */}
-     {activeTab === 'Home' && currentContent.length > 10 && !isDiaryWrittenToday && (
+    {/* 저장하기 버튼 -  Home 탭일 때만 표시 */}
+     {activeTab === 'Home' && canSave && (
         <>                  
            <TouchableOpacity
             onPress={handleSavePress}
@@ -109,8 +96,7 @@ export const TabBar = () => {
             >
             <Text 
               text={
-                    isGenerating ? "AI가 분석중..." :
-                    isLoading ? "저장중..." : 
+                    isSaving ? "저장중..." : 
                     "다 적었어요!"
                   } 
               type="black" 
