@@ -65,7 +65,6 @@ export const KeyboardAccessoryBar: React.FC = () => {
         >
           <Text text="키보드 내리기" type="kb2023" className="text-text-black" />
         </TouchableOpacity>
-        <View className="h-[100] w-[100] bg-red-500" />
 
         {showSave ? (
           <Animated.View 
