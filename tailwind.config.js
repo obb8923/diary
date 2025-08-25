@@ -26,7 +26,7 @@ module.exports = {
         'text-blue': '#062A8B',
         'line': '#BAD5DD',
         'blue-100':'#DDEAEE',
-        // 'blue-200':'#BAD5DD',
+        'blue-200':'#BAD5DD',
         'blue-300':'#99C1CC',
         'blue-400':'#76ACBC',
         'blue-500':'#5497AB',
@@ -43,6 +43,7 @@ module.exports = {
         'yellow-700':'#58594A',
         // 'yellow-800':'#3B3C32',
         'yellow-900':'#21211C',
+        'disabled':'#D1D5DB',
 
       },
 

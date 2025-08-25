@@ -15,6 +15,7 @@ export const Colors = {
   
   // Blue color scale
   blue100: '#DDEAEE',
+  blue200: '#BAD5DD',
   blue300: '#99C1CC',
   blue400: '#76ACBC',
   blue500: '#5497AB',
@@ -32,4 +33,7 @@ export const Colors = {
   yellow600: '#737561',
   yellow700: '#58594A',
   yellow900: '#21211C',
+
+  // UI States
+  disabled: '#D1D5DB',
 }
