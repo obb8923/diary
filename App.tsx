@@ -5,7 +5,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import {RootStack} from './src/shared/nav/stack/Root';
-import {TabBar} from './src/shared/components/TabBar';
 
 export default function App() {
   return (
@@ -15,7 +14,6 @@ export default function App() {
               <NavigationContainer>
                 <StatusBar barStyle="dark-content" translucent={true}/>
                 <RootStack/>
-                <TabBar/>
               </NavigationContainer>
         </SafeAreaView>
       </SafeAreaProvider>

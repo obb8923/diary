@@ -16,7 +16,7 @@ export const AppTab = () => {
     case 'Profile':
       return <ProfileStack />;
     default:
-      return <DiaryStack />; // 기본값으로 Home 스택 렌더링
+      return <DiaryStack />; 
   }
 };
 

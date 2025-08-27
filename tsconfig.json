@@ -14,6 +14,7 @@
     "@diary/*": ["src/domain/diary/*"],
     "@calendar/*": ["src/domain/calendar/*"],
     "@etc/*": ["src/domain/etc/*"],
+    "@nav/*": ["src/shared/nav/*"],
   }
 },
   "extends": "@react-native/typescript-config",

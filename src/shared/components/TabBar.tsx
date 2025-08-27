@@ -87,7 +87,6 @@ export const TabBar = () => {
       
      
     </View>
-    {/* 저장하기 버튼 -  Home 탭일 때만 표시 */}
      {activeTab === 'Diary' && canSave && (
         <>                  
            <TouchableOpacity

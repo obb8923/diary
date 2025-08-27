@@ -3,7 +3,7 @@ import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-na
 import { Background } from '@components/Background';
 import { Diary } from '@/domain/diary/components/Diary';
 import { useAnimationStore } from '@/shared/store/animationStore';
-
+import {TabBar} from '@/shared/components/TabBar';
 export const DiaryScreen = () => {
   const transformScale = useAnimationStore(state => state.transformScale);
   const scale = useSharedValue(1);
@@ -19,6 +19,7 @@ export const DiaryScreen = () => {
       <Animated.View style={animatedStyle}>
         <Diary />
       </Animated.View>
+      <TabBar />
     </Background>
   );
 }
