@@ -7,7 +7,7 @@ import { StorageService } from '@services/storageService';
 import { DiaryEntry } from '@/shared/types/diary';
 import { FLOWER_IMAGES } from '@constants/normal';
 import { formatDate, formatSelectedDate as splitSelectedDate } from '@libs/date';
-
+import {TabBar} from '@/shared/components/TabBar';
 const weatherLabels = ['맑음', '비', '구름', '바람', '눈'] as const;
 
 type DiaryPreviewProps = { date: Date; entry: DiaryEntry };
@@ -152,6 +152,7 @@ export const CalendarScreen = () => {
           </View>
         )}
       </ScrollView>
+      <TabBar />
     </Background>
   );
 };
