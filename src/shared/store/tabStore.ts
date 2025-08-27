@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 // 탭 이름 타입 정의
-export type TabName = 'Home' | 'Calendar' | 'Profile';
+export type TabName = 'Diary' | 'Calendar' | 'Profile';
 
 // 탭 스토어 인터페이스
 interface TabStore {
@@ -14,7 +14,7 @@ interface TabStore {
 // Zustand 스토어 생성
 export const useTabStore = create<TabStore>((set) => ({
   // 초기 상태
-  activeTab: 'Home',
+  activeTab: 'Diary',
 
   // 탭 이동
   setActiveTab: (tab: TabName) => {

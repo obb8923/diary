@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import {CalendarScreen} from "@Calendar/screen/CalendarScreen";
+import {CalendarScreen} from "@calendar/screen/CalendarScreen";
 
 const Stack = createNativeStackNavigator<CalendarStackParamList>();
 export type CalendarStackParamList = {

@@ -19,7 +19,7 @@ interface TabInfo {
 
 // 탭 정보 배열
 const tabs: TabInfo[] = [
-  { name: 'Home', icon: PencilIcon },
+  { name: 'Diary', icon: PencilIcon },
   { name: 'Calendar', icon: CalendarIcon },
   // { name: 'Profile', icon: DotsIcon },
 ];
@@ -88,7 +88,7 @@ export const TabBar = () => {
      
     </View>
     {/* 저장하기 버튼 -  Home 탭일 때만 표시 */}
-     {activeTab === 'Home' && canSave && (
+     {activeTab === 'Diary' && canSave && (
         <>                  
            <TouchableOpacity
             onPress={handleSavePress}

@@ -7,8 +7,8 @@ const { width, height } = Dimensions.get('window');
 
 // 일기장 덮개: 왼쪽에서 오른쪽으로 단일 커버가 닫히고 열리는 애니메이션
 export const DiaryCover = () => {
-  // 0: 완전히 열림, 1: 완전히 닫힘
-  const progress = useSharedValue(0);
+  // 0: 완전히 열림, 1: 완전히 닫힘 (초기값: 닫힌 상태)
+  const progress = useSharedValue(1);
   const durationMs = 520;
 
   const { direction, triggerId } = useAnimationStore();
