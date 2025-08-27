@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions } from 'react-native';
+import { Dimensions, TouchableWithoutFeedback } from 'react-native';
 import Animated, { Easing, useAnimatedReaction, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useAnimationStore } from '@store/animationStore';
 
@@ -12,6 +12,14 @@ export const DiaryCover = () => {
   const durationMs = 520;
 
   const { direction, triggerId } = useAnimationStore();
+
+  const handleCoverTouch = () => {
+    const { setTransformScale, startOpening } = useAnimationStore.getState()
+    startOpening()
+    setTimeout(() => {
+      setTransformScale(1)
+    }, 500)
+  }
 
   useAnimatedReaction(
     () => ({ direction, triggerId }),
@@ -34,9 +42,11 @@ export const DiaryCover = () => {
   });
 
   return (
-    <Animated.View pointerEvents="none" className="absolute inset-0 overflow-hidden z-40">
-      <Animated.View style={coverStyle} className="absolute left-0 top-0" />
-    </Animated.View>
+    <TouchableWithoutFeedback onPress={handleCoverTouch}>
+      <Animated.View className="absolute inset-0 overflow-hidden z-40">
+        <Animated.View style={coverStyle} className="absolute left-0 top-0" />
+      </Animated.View>
+    </TouchableWithoutFeedback>
   );
 };
 

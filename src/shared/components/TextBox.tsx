@@ -70,7 +70,6 @@ export const TextBox = () => {
         className="font-kb2019 text-text-black text-base py-3 px-6 bg-transparent relative z-10"
         placeholder=""
         placeholderTextColor="#BAD5DD"
-        autoFocus={!isDiaryWrittenToday}
         inputAccessoryViewID={'DiaryAccessory'}
         value={text}
         onChangeText={handleTextChange}

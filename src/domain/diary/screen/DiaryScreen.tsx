@@ -16,10 +16,10 @@ export const DiaryScreen = () => {
 
   return (
     <Background isStatusBarGap={true} isTabBarGap={true}>
+      {transformScale !== 1 && <TabBar />}
       <Animated.View style={animatedStyle}>
         <Diary />
       </Animated.View>
-      <TabBar />
     </Background>
   );
 }
