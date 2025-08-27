@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 import { View, Keyboard, Dimensions } from "react-native"
 import { Text } from "@components/Text"
 import { TextBox } from "@components/TextBox"
-import { WeatherSelector } from "../../../shared/components/WeatherSelector"
+import { WeatherSelector } from "./WeatherSelector"
 import { useDiary } from "../../../shared/libs/hooks/useDiary"
 import { formatSelectedDate } from "../../../shared/libs/date"
 import Animated, { Easing, runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'

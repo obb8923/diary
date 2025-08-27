@@ -4,7 +4,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { Text } from '@components/Text';
 import { useDiary } from '@libs/hooks/useDiary';
 import { DEVICE_WIDTH, FLOWER_IMAGES } from '@constants/normal';
-import { KeyboardAccessoryBar } from '@components/KeyboardAccessoryBar';
+import { KeyboardAccessoryBar } from '@/domain/diary/components/KeyboardAccessoryBar';
 export const TextBox = () => {
   const { currentComment, currentContent,setCurrentContent,isDiaryWrittenToday, currentFlowerIndex } = useDiary();
   const [text, setText] = useState('');
