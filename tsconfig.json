@@ -11,9 +11,9 @@
     "@store/*": ["src/shared/store/*"],
     "@services/*": ["src/shared/services/*"],
     "@types/*": ["src/shared/types/*"],
-    "@Home/*": ["src/domain/home/*"],
-    "@Calendar/*": ["src/domain/calendar/*"],
-    "@Profile/*": ["src/domain/profile/*"]
+    "@diary/*": ["src/domain/diary/*"],
+    "@calendar/*": ["src/domain/calendar/*"],
+    "@etc/*": ["src/domain/etc/*"],
   }
 },
   "extends": "@react-native/typescript-config",

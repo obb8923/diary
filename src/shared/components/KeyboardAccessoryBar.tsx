@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Platform, View, Keyboard, InputAccessoryView, TouchableOpacity, Alert } from 'react-native';
+import { Platform, View, Keyboard, InputAccessoryView, TouchableOpacity } from 'react-native';
 import Animated, { Layout, ZoomIn, ZoomOut } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Text } from '@components/Text';
@@ -12,7 +12,7 @@ export const KeyboardAccessoryBar: React.FC = () => {
   const insets = useSafeAreaInsets();
   const { charactersCount, canSave, isSaving, save } = useSaveDiaryFlow();
   const [showSave, setShowSave] = useState(canSave);
-  const { startClosing, startOpening } = useAnimationStore();
+  const { startClosing, startOpening, startSaveSequence } = useAnimationStore();
 
   useEffect(() => {
     setShowSave(canSave);
@@ -26,9 +26,7 @@ export const KeyboardAccessoryBar: React.FC = () => {
 
   const handleSave = async () => {
     if (!canSave) return;
-    await save();
-    Alert.alert('저장 완료✨', '하루하루의 기록이 큰 보물이 될 거에요', [{ text: '확인', style: 'default' }]);
-    Keyboard.dismiss();
+    startSaveSequence(save);
   };
 
   useEffect(() => {

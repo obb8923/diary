@@ -1,10 +1,10 @@
 import { View, Text } from "react-native"
 import { Background } from "@components/Background" 
-export const ProfileScreen = () => {
+export const EtcScreen = () => {
   return (
     <Background isStatusBarGap={true} isTabBarGap={true}>
       <View className="flex-1 items-center justify-center">
-        <Text>Profile</Text>
+        <Text>Etc</Text>
       </View>
     </Background>
   )

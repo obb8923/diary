@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, TouchableOpacity, Modal } from 'react-native';
-import { Text } from './Text';
+import { Text } from '../../../shared/components/Text';
 
 interface CommentDisplayProps {
   comment?: string;

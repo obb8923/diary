@@ -11,6 +11,11 @@ interface AnimationStore {
   // 액션들
   startClosing: () => void;
   startOpening: () => void;
+
+  // 저장 시퀀스
+  saveSequenceId: number;
+  runSave: (() => Promise<void>) | null;
+  startSaveSequence: (runSave: () => Promise<void>) => void;
 }
 
 export const useAnimationStore = create<AnimationStore>((set, get) => ({
@@ -25,6 +30,14 @@ export const useAnimationStore = create<AnimationStore>((set, get) => ({
   startOpening: () => {
     const nextId = get().triggerId + 1;
     set({ direction: 'open', triggerId: nextId });
+  },
+
+  // 저장 시퀀스 초기값
+  saveSequenceId: 0,
+  runSave: null,
+  startSaveSequence: (runSave: () => Promise<void>) => {
+    const seqId = get().saveSequenceId + 1;
+    set({ runSave, saveSequenceId: seqId });
   },
 }));
 

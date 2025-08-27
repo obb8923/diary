@@ -1,12 +1,10 @@
 import React from 'react';
 import { Background } from '@components/Background';
-import { Diary } from '@domain/home/components/Diary';
-import { DiaryCover } from '@components/DiaryCover';
+import { Diary } from '@/domain/diary/components/Diary';
 
 export const HomeScreen = () => {
   return (
     <Background isStatusBarGap={true} isTabBarGap={true}>
-      <DiaryCover />
       <Diary />
     </Background>
   );
