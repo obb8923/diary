@@ -16,6 +16,8 @@ module.exports = {
           '@Home': './src/domain/home',
           '@Calendar': './src/domain/calendar',
           '@Profile': './src/domain/profile',
+          '@services': './src/shared/services',
+          '@types': './src/shared/types',
         },
       },
     ],

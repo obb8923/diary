@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-
+import { View, TouchableOpacity } from 'react-native';
+import { Text } from '@components/Text';
 interface CalendarProps {
   onDateSelect?: (date: Date) => void;
   selectedDate?: Date;
@@ -125,25 +125,23 @@ export const Calendar = ({ onDateSelect, selectedDate }: CalendarProps) => {
   const weeks = generateCalendarWeeks();
   
   return (
-    <View className="bg-white p-4 rounded-lg">
+    <View className="bg-background p-4 rounded-lg border-2 border-line">
       {/* 헤더 - 월/년 표시 및 네비게이션 */}
       <View className="flex-row justify-between items-center mb-6">
         <TouchableOpacity
           onPress={goToPreviousMonth}
           className="p-2"
         >
-          <Text className="text-xl text-gray-600">‹</Text>
+          <Text text="‹" type="semibold" className="text-xl text-gray-600" />
         </TouchableOpacity>
         
-        <Text className="text-lg font-p-semibold text-text-black">
-          {currentDate.getFullYear()}년 {monthNames[currentDate.getMonth()]}
-        </Text>
+        <Text text={`${currentDate.getFullYear()}년 ${monthNames[currentDate.getMonth()]}`} type="semibold" className="text-lg text-text-black" />
         
         <TouchableOpacity
           onPress={goToNextMonth}
           className="p-2"
         >
-          <Text className="text-xl text-gray-600">›</Text>
+          <Text text="›" type="semibold" className="text-xl text-gray-600" />
         </TouchableOpacity>
       </View>
       
@@ -151,11 +149,9 @@ export const Calendar = ({ onDateSelect, selectedDate }: CalendarProps) => {
       <View className="flex-row mb-3">
         {dayNames.map((day, index) => (
           <View key={index} className="flex-1 items-center py-2">
-            <Text className={`text-sm font-medium ${
+            <Text text={day} type="semibold" className={`text-sm font-medium ${
               index === 0 ? 'text-red-500' : index === 6 ? 'text-blue-500' : 'text-gray-600'
-            }`}>
-              {day}
-            </Text>
+            }`} />
           </View>
         ))}
       </View>
@@ -176,9 +172,7 @@ export const Calendar = ({ onDateSelect, selectedDate }: CalendarProps) => {
                       : 'bg-transparent'
                   }`}
                 >
-                  <Text className={getDateTextColor(date, dayIndex)}>
-                    {date.getDate()}
-                  </Text>
+                  <Text text={date.getDate().toString()} type="semibold" className={getDateTextColor(date, dayIndex)} />
                 </TouchableOpacity>
               ) : (
                 <View className="w-10 h-10" />

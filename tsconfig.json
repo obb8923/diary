@@ -9,6 +9,8 @@
     "@constants/*": ["src/shared/constants/*"],
     "@libs/*": ["src/shared/libs/*"],
     "@store/*": ["src/shared/store/*"],
+    "@services/*": ["src/shared/services/*"],
+    "@types/*": ["src/shared/types/*"],
     "@Home/*": ["src/domain/home/*"],
     "@Calendar/*": ["src/domain/calendar/*"],
     "@Profile/*": ["src/domain/profile/*"]
