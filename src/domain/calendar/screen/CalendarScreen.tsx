@@ -31,7 +31,7 @@ const DiaryPreview = ({ date, entry }: DiaryPreviewProps) => {
     : 0;
 
   return (
-    <View className="w-full border border border-line rounded-lg overflow-hidden">
+    <View className="w-full border border border-line rounded-lg overflow-hidden mb-48">
       {/* 헤더: 날짜/날씨 */}
       <View className="flex-row items-center justify-center border-b border-line p-2">
         <View className="flex-row items-center justify-end flex-1">
@@ -98,7 +98,7 @@ const DiaryPreview = ({ date, entry }: DiaryPreviewProps) => {
 };
 
 export const CalendarScreen = () => {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [selectedDiary, setSelectedDiary] = useState<DiaryEntry | null | undefined>(undefined);
 
   const handleDateSelect = (date: Date) => {
