@@ -46,19 +46,13 @@ export const KeyboardAccessoryBar= () => {
     };
   }, [bottomPosition]);
 
-  const handleDismiss = () => {
-    // 닫힘 애니메이션 트리거
-    startClosing();
-    Keyboard.dismiss();
-  };
-
   const handleSave = async () => {
     if (!canSave) return;
     startSaveSequence(save);
   };
 
   const handleBack = () => {
-    // 스케일을 줄이고 커버 닫기 (DiaryCover 애니메이션의 반대)
+    // 뒤로가기 , 스케일을 줄이고 커버 닫기 (DiaryCover 애니메이션의 반대)
     const { setTransformScale, startClosing } = useAnimationStore.getState();
     setTransformScale(DIARY_ANIMATION_CONSTANTS.SCALE.CLOSED); // 스케일을 닫힌 상태로 줄임
     setTimeout(() => {
@@ -84,19 +78,11 @@ export const KeyboardAccessoryBar= () => {
         <TouchableOpacity
           onPress={handleBack}
           activeOpacity={0.8}
-          className="h-8 px-3 mr-2 rounded-full border border-line justify-center items-center"
+          className="h-8 px-3 mr-2 rounded-full border border-text-blue justify-center items-center"
         >
-          <Text text="← 뒤로가기" type="kb2023" className="text-text-black" />
+          <Text text="← 뒤로가기" type="kb2023" className="text-text-blue" />
         </TouchableOpacity>
         
-        <TouchableOpacity
-          onPress={handleDismiss}
-          activeOpacity={0.8}
-          className="h-8 px-3 mr-2 rounded-full border border-line justify-center items-center"
-        >
-          <Text text="키보드 내리기" type="kb2023" className="text-text-black" />
-        </TouchableOpacity>
-
         {showSave && (
           <Animated.View 
           entering={ZoomIn.springify().stiffness(DIARY_ANIMATION_CONSTANTS.SPRING.SAVE_BUTTON_STIFFNESS).damping(DIARY_ANIMATION_CONSTANTS.SPRING.SAVE_BUTTON_DAMPING)} 
