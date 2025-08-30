@@ -5,6 +5,7 @@ import { Text } from '@components/Text';
 import { useDiary } from '@libs/hooks/useDiary';
 import { DEVICE_WIDTH, FLOWER_IMAGES, TEXT_SIZE, LINE_HEIGHT, PADDING_TOP, HORIZONTAL_PADDING, DEFAULT_SPACING, NUMBER_OF_LINES } from '@constants/normal';
 import { KeyboardAccessoryBar } from '@/domain/diary/components/KeyboardAccessoryBar';
+
 export const TextBox = () => {
   const { currentComment, currentContent,setCurrentContent,isDiaryWrittenToday, currentFlowerIndex } = useDiary();
   const [text, setText] = useState('');
@@ -82,7 +83,7 @@ export const TextBox = () => {
           minHeight: NUMBER_OF_LINES * LINE_HEIGHT + 24, // 패딩 포함
         }}
       />
-
+      {/* 이미지 */}
       {isDiaryWrittenToday ? (
         <View
           pointerEvents="none"
@@ -102,7 +103,7 @@ export const TextBox = () => {
           />
         </View>
       ) : null}
-
+  
         {currentComment ? (
           <View
             pointerEvents="box-none"
@@ -118,9 +119,11 @@ export const TextBox = () => {
           </View>
         ) : null}
         </View>
+       
       </KeyboardAwareScrollView>
+       {/* 키보드 액세서리 바 */}
+       <KeyboardAccessoryBar />
 
-      <KeyboardAccessoryBar />
     </View>
   );
 };

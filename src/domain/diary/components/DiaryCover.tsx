@@ -4,8 +4,6 @@ import Animated, { Easing, useAnimatedReaction, useAnimatedStyle, useSharedValue
 import { useAnimationStore } from '@store/animationStore';
 import { DIARY_ANIMATION_CONSTANTS } from '@constants/DiaryAnimation';
 
-const { width, height } = Dimensions.get('window');
-
 // 일기장 덮개: 왼쪽에서 오른쪽으로 단일 커버가 닫히고 열리는 애니메이션
 export const DiaryCover = () => {
   // 0: 완전히 열림, 1: 완전히 닫힘 (초기값: 닫힌 상태)
@@ -32,12 +30,10 @@ export const DiaryCover = () => {
   );
 
   // 단일 커버: 왼쪽에서 오른쪽으로 폭이 증가
+  // 부모 컨테이너(Diary)의 크기를 100%로 사용
   const coverStyle = useAnimatedStyle(() => {
-    const animatedWidth = width * progress.value; // 0 → 열림, width → 닫힘
     return {
-      width: animatedWidth,
-      height,
-      backgroundColor: `rgba(0,0,0,${DIARY_ANIMATION_CONSTANTS.COVER.OPACITY})`
+      width: `${progress.value * 100}%`, // 0% → 열림, 100% → 닫힘
     };
   });
 
@@ -55,7 +51,7 @@ export const DiaryCover = () => {
         className="absolute inset-0 overflow-hidden z-40"
         style={containerStyle}
       >
-        <Animated.View style={coverStyle} className="absolute left-0 top-0" />
+        <Animated.View style={coverStyle} className="absolute left-0 top-0 h-full bg-white" />
       </Animated.View>
     </TouchableWithoutFeedback>
   );

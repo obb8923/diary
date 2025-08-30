@@ -1,6 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react"
-import { Keyboard, Dimensions, TouchableWithoutFeedback, View } from "react-native"
-import { useDiary } from "../../../shared/libs/hooks/useDiary"
+import React, { useEffect, useCallback } from "react"
 import Animated, { 
   Easing, 
   useAnimatedStyle, 
@@ -8,15 +6,16 @@ import Animated, {
   withTiming,
   runOnJS
 } from 'react-native-reanimated'
-import type { SharedValue } from 'react-native-reanimated'
+import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { useAnimationStore } from "@store/animationStore"
 import { DiaryCover } from "@/domain/diary/components/DiaryCover"
 import { DiaryPaper } from "@/domain/diary/components/DiaryPaper"
 import { DIARY_ANIMATION_CONSTANTS } from "@constants/DiaryAnimation"
-
+import { getDiaryDimensions } from "@constants/normal"
 
 export const Diary = () => {
-  const { saveSequenceId, saveAnimationStep, setSaveAnimationStep, startClosing, startOpening } = useAnimationStore();
+  const insets = useSafeAreaInsets();
+  const { saveSequenceId, saveAnimationStep, setSaveAnimationStep, startClosing, startOpening, transformScale } = useAnimationStore();
   
   // 애니메이션 값들
   const scale = useSharedValue(1);
@@ -155,10 +154,20 @@ export const Diary = () => {
     };
   });
 
+  
+  // transformScale에 따라 다이어리 크기 결정
+  const isOpened = transformScale === DIARY_ANIMATION_CONSTANTS.SCALE.OPENED;
+  const { width: diaryWidth, height: diaryHeight } = getDiaryDimensions(insets, isOpened);
+
   return (
     <Animated.View 
-      style={animatedStyle}
-      className='w-full h-full border border-line'
+      style={[
+        animatedStyle,
+        {
+          width: diaryWidth,
+          height: diaryHeight,
+        }
+      ]}
     >
       <DiaryPaper />
       <DiaryCover />

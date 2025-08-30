@@ -45,7 +45,7 @@ export const DiaryPaper = () => {
     }
   }, [saveAnimationStep, setSaveAnimationStep]);
   return (
-    <View className='flex-1'>
+    <View className='flex-1 border border-line bg-background'>
       {/* 날짜, 날씨 영역 */}
       <View className="flex-row items-center justify-center border-b border-line p-3">
           <Text text={`${year}`} type="kb2019" className={dateStyle}/>
