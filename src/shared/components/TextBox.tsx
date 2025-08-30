@@ -68,8 +68,6 @@ export const TextBox = () => {
       
       <TextInput
         className="font-kb2019 text-text-black text-base py-3 px-6 bg-transparent relative z-10"
-        placeholder=""
-        placeholderTextColor="#BAD5DD"
         inputAccessoryViewID={'DiaryAccessory'}
         value={text}
         onChangeText={handleTextChange}
