@@ -54,12 +54,21 @@ export const DiaryPaper = () => {
           <Text text=' 월  ' type="black" className={dateStyle}/>
           <Text text={`${day}`} type="kb2019" className={dateStyle}/>
           <Text text=' 일  ' type="black" className={dateStyle}/>
-          <WeatherSelector textStyle={dateStyle} />
+          <WeatherSelector textStyle={dateStyle} disabled={isDiaryWrittenToday} />
       </View>
       {/* 일기장 내용 - 실제 글을 작성하는 영역 */}
       <View className="flex-1">
         <TextBox />
       </View>
+      
+      {/* 일기가 이미 작성된 경우 모든 상호작용을 차단하는 투명한 오버레이 */}
+      {isDiaryWrittenToday && (
+        <View 
+          className="absolute inset-0 z-30"
+          pointerEvents="auto"
+          style={{ backgroundColor: 'transparent' }}
+        />
+      )}
     </View>
   )
 }

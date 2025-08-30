@@ -71,6 +71,9 @@ export const TextBox = () => {
           const h = e.nativeEvent.contentSize.height;
           setContentHeight(h);
         }}
+        editable={!isDiaryWrittenToday}
+        selectTextOnFocus={false}
+        caretHidden={isDiaryWrittenToday}
         style={{
           fontFamily: 'KyoboHandwriting2019',
           fontSize: TEXT_SIZE,

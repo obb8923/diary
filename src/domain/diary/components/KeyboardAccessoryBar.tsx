@@ -10,7 +10,7 @@ export const KeyboardAccessoryBar= () => {
   const [keyboardHeight, setKeyboardHeight] = useState(0);
   const { charactersCount, canSave, isSaving, save } = useSaveDiaryFlow();
   const [showSave, setShowSave] = useState(canSave);
-  const { startClosing, startOpening, startSaveSequence } = useAnimationStore();
+  const { startSaveSequence } = useAnimationStore();
   const bottomPosition = useSharedValue(0);
 
   useEffect(() => {
@@ -114,7 +114,7 @@ export const KeyboardAccessoryBar= () => {
       <>
         <InputAccessoryView nativeID={'DiaryAccessory'}>{Bar}</InputAccessoryView>
         {keyboardHeight === 0 && (
-          <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }}>
+          <View className="absolute left-0 right-0 bottom-0 z-40">
             {Bar}
           </View>
         )}
@@ -125,12 +125,8 @@ export const KeyboardAccessoryBar= () => {
   return (
     <Animated.View 
       pointerEvents="box-none" 
+      className="absolute left-0 right-0 bottom-0 z-40"
       style={[
-        { 
-          position: 'absolute', 
-          left: 0, 
-          right: 0,
-        },
         animatedStyle
       ]}
     >
