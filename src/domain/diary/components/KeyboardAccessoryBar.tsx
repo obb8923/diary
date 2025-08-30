@@ -72,7 +72,7 @@ export const KeyboardAccessoryBar= () => {
 
   const Bar = (
     <View
-      className="bg-blue-100 h-12 px-4 flex-row items-center justify-between"
+      className="bg-blue-100 h-12 px-4 flex-row items-center justify-between relative"
     >
       <Text text={`${charactersCount}자`} type="kb2023" className="text-text-blue" />
 
@@ -87,20 +87,22 @@ export const KeyboardAccessoryBar= () => {
         
         {showSave && (
           <Animated.View 
-          entering={ZoomIn.springify().stiffness(DIARY_ANIMATION_CONSTANTS.SPRING.SAVE_BUTTON_STIFFNESS).damping(DIARY_ANIMATION_CONSTANTS.SPRING.SAVE_BUTTON_DAMPING)} 
-          exiting={ZoomOut}   
-          style={{ zIndex: 1, overflow: 'visible' }}
+          style={{ zIndex: 1 }}
+          {...(Platform.OS === 'ios' && {
+            entering: ZoomIn.springify().stiffness(DIARY_ANIMATION_CONSTANTS.SPRING.SAVE_BUTTON_STIFFNESS).damping(DIARY_ANIMATION_CONSTANTS.SPRING.SAVE_BUTTON_DAMPING),
+            exiting: ZoomOut
+          })}
           >
             <TouchableOpacity
               onPress={handleSave}
               activeOpacity={0.9}
-              className={`h-8 px-4 rounded-full justify-center items-center ${isSaving ? 'bg-blue-300' : 'bg-blue-500'}`}
+              className="h-8 px-4 rounded-full justify-center items-center border border-text-blue bg-text-blue"
               disabled={isSaving}
             >
               <Text
                 text={isSaving ? '저장중...' : '다 적었어요!'}
-                type="semibold"
-                className="text-background"
+                type="kb2023"
+                className="text-blue-100"
               />
             </TouchableOpacity>
           </Animated.View>
@@ -134,7 +136,3 @@ export const KeyboardAccessoryBar= () => {
     </Animated.View>
   );
 };
-
-export default KeyboardAccessoryBar;
-
-
