@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, TouchableWithoutFeedback } from 'react-native';
+import { Dimensions, TouchableWithoutFeedback, Image } from 'react-native';
 import Animated, { Easing, useAnimatedReaction, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useAnimationStore } from '@store/animationStore';
 import { DIARY_ANIMATION_CONSTANTS } from '@constants/DiaryAnimation';
@@ -51,7 +51,13 @@ export const DiaryCover = () => {
         className="absolute inset-0 overflow-hidden z-40"
         style={containerStyle}
       >
-        <Animated.View style={coverStyle} className="absolute left-0 top-0 h-full bg-white" />
+        <Animated.View style={coverStyle} className="absolute left-0 top-0 h-full">
+          <Image 
+            source={require('@assets/Cover/A1.jpg')} 
+            className="w-full h-full"
+            resizeMode="cover"
+          />
+        </Animated.View>
       </Animated.View>
     </TouchableWithoutFeedback>
   );
