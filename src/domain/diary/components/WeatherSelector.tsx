@@ -27,8 +27,8 @@ export const WeatherSelector = ({ textStyle }: { textStyle: string }) => {
   
   return (
     <TouchableOpacity onPress={handleWeatherPress} className="flex-row items-center justify-center">
-      <Text text='날씨:  ' type="black" className={textStyle}/>
-      <Text text={label} type='kb2019' className={`${textStyle} text-center w-10`}/>
+      <Text text='날씨:' type="black" className={`${textStyle}`}/>
+      <Text text={label} type='kb2019' className={`${textStyle} text-center w-12`}/>
     </TouchableOpacity>
   );
 };
