@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Platform, View, Keyboard, InputAccessoryView, TouchableOpacity } from 'react-native';
-import Animated, { Layout, ZoomIn, ZoomOut } from 'react-native-reanimated';
+import { Platform, View, Keyboard, InputAccessoryView, TouchableOpacity, KeyboardEvent } from 'react-native';
+import Animated, { Layout, ZoomIn, ZoomOut, useSharedValue, useAnimatedStyle, withTiming, Easing } from 'react-native-reanimated';
 import { Text } from '@components/Text';
 import { useSaveDiaryFlow } from '@libs/hooks/useSaveDiaryFlow';
 import { useAnimationStore } from '@store/animationStore';
@@ -10,10 +10,40 @@ export const KeyboardAccessoryBar= () => {
   const { charactersCount, canSave, isSaving, save } = useSaveDiaryFlow();
   const [showSave, setShowSave] = useState(canSave);
   const { startClosing, startOpening, startSaveSequence } = useAnimationStore();
+  const bottomPosition = useSharedValue(0);
 
   useEffect(() => {
     setShowSave(canSave);
   }, [canSave]);
+
+  useEffect(() => {
+    const keyboardWillShowListener = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow',
+      (event: KeyboardEvent) => {
+        setKeyboardHeight(event.endCoordinates.height);
+        bottomPosition.value = withTiming(event.endCoordinates.height, {
+          duration: 250,
+          easing: Easing.out(Easing.cubic),
+        });
+      }
+    );
+
+    const keyboardWillHideListener = Keyboard.addListener(
+      Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide',
+      () => {
+        setKeyboardHeight(0);
+        bottomPosition.value = withTiming(0, {
+          duration: 250,
+          easing: Easing.out(Easing.cubic),
+        });
+      }
+    );
+
+    return () => {
+      keyboardWillShowListener.remove();
+      keyboardWillHideListener.remove();
+    };
+  }, [bottomPosition]);
 
   const handleDismiss = () => {
     // 닫힘 애니메이션 트리거
@@ -25,6 +55,12 @@ export const KeyboardAccessoryBar= () => {
     if (!canSave) return;
     startSaveSequence(save);
   };
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      bottom: bottomPosition.value,
+    };
+  });
 
 
   const Bar = (
@@ -67,14 +103,33 @@ export const KeyboardAccessoryBar= () => {
   );
 
   if (Platform.OS === 'ios') {
-    return <InputAccessoryView nativeID={'DiaryAccessory'}>{Bar}</InputAccessoryView>;
+    return (
+      <>
+        <InputAccessoryView nativeID={'DiaryAccessory'}>{Bar}</InputAccessoryView>
+        {keyboardHeight === 0 && (
+          <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0 }}>
+            {Bar}
+          </View>
+        )}
+      </>
+    );
   }
 
-  return  (
-    <View pointerEvents="box-none" style={{ position: 'absolute', left: 0, right: 0, bottom: keyboardHeight }}>
+  return (
+    <Animated.View 
+      pointerEvents="box-none" 
+      style={[
+        { 
+          position: 'absolute', 
+          left: 0, 
+          right: 0,
+        },
+        animatedStyle
+      ]}
+    >
       {Bar}
-    </View>
-  ) ;
+    </Animated.View>
+  );
 };
 
 export default KeyboardAccessoryBar;
