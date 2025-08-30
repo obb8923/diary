@@ -16,10 +16,12 @@ interface AnimationStore {
   startOpening: () => void;
   setTransformScale: (scale: number) => void;
 
-  // 저장 시퀀스
+  // 저장 애니메이션 시퀀스
   saveSequenceId: number;
+  saveAnimationStep: 'idle' | 'saving' | 'scaling' | 'rotating' | 'lifting' | 'waiting_for_result' | 'reversing' | 'showing_result';
   runSave: (() => Promise<void>) | null;
   startSaveSequence: (runSave: () => Promise<void>) => void;
+  setSaveAnimationStep: (step: 'idle' | 'saving' | 'scaling' | 'rotating' | 'lifting' | 'waiting_for_result' | 'reversing' | 'showing_result') => void;
 }
 
 export const useAnimationStore = create<AnimationStore>((set, get) => ({
@@ -41,12 +43,16 @@ export const useAnimationStore = create<AnimationStore>((set, get) => ({
     set({ transformScale: scale });
   },
 
-  // 저장 시퀀스 초기값
+  // 저장 애니메이션 시퀀스 초기값
   saveSequenceId: 0,
+  saveAnimationStep: 'idle',
   runSave: null,
   startSaveSequence: (runSave: () => Promise<void>) => {
     const seqId = get().saveSequenceId + 1;
-    set({ runSave, saveSequenceId: seqId });
+    set({ runSave, saveSequenceId: seqId, saveAnimationStep: 'saving' });
+  },
+  setSaveAnimationStep: (step) => {
+    set({ saveAnimationStep: step });
   },
 }));
 

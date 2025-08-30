@@ -35,4 +35,18 @@ export const DIARY_ANIMATION_CONSTANTS = {
     FULLY_CLOSED: 1 as number,    // 완전히 닫힌 상태
     FULLY_OPENED: 0 as number,    // 완전히 열린 상태
   },
+  
+  // 저장 애니메이션 관련
+  SAVE_ANIMATION: {
+    SCALE_DURATION_MS: 600,       // 스케일 애니메이션 시간
+    ROTATE_DURATION_MS: 800,      // 회전 애니메이션 시간
+    LIFT_DURATION_MS: 700,        // 리프트 애니메이션 시간
+    REVERSE_DURATION_MS: 900,     // 역방향 애니메이션 시간
+    SMALL_SCALE: 0.3,             // 작아질 때 스케일
+    LIFT_OFFSET: -300,            // 위로 올릴 때 Y 오프셋
+    STEP_DELAY_MS: 300,           // 각 단계 간 지연 시간
+    ROTATE_DEGREES: 180,          // 회전 각도 (시계방향)
+    MIN_WAIT_TIME_MS: 500,        // 저장 결과 최소 대기 시간
+    WAITING_STEP: 'waiting_for_result', // 결과 대기 단계
+  },
 } as const;
