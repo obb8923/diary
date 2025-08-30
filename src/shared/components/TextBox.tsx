@@ -3,7 +3,7 @@ import { TextInput, View, Image, Platform } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Text } from '@components/Text';
 import { useDiary } from '@libs/hooks/useDiary';
-import { DEVICE_WIDTH, FLOWER_IMAGES } from '@constants/normal';
+import { DEVICE_WIDTH, FLOWER_IMAGES, TEXT_SIZE, LINE_HEIGHT, PADDING_TOP, HORIZONTAL_PADDING, DEFAULT_SPACING, NUMBER_OF_LINES } from '@constants/normal';
 import { KeyboardAccessoryBar } from '@/domain/diary/components/KeyboardAccessoryBar';
 export const TextBox = () => {
   const { currentComment, currentContent,setCurrentContent,isDiaryWrittenToday, currentFlowerIndex } = useDiary();
@@ -13,8 +13,7 @@ export const TextBox = () => {
   // 저장된 인덱스(1~6)를 소스에 매핑. 유효하지 않으면 1번 사용
   const flowerSource = FLOWER_IMAGES[(Math.max(1, Math.min((currentFlowerIndex || 1), FLOWER_IMAGES.length)) - 1)];
   const resolved = Image.resolveAssetSource(flowerSource);//원본 크기 추출하기 위함
-  const horizontalPadding = 16;
-  const availableWidth = Math.max(0, containerWidth - horizontalPadding * 2);
+  const availableWidth = Math.max(0, containerWidth - HORIZONTAL_PADDING * 2);
 
   const handleTextChange = (newText: string) => {
     setText(newText);
@@ -28,11 +27,6 @@ export const TextBox = () => {
 
   // 액세서리 바는 별도 컴포넌트가 제어
 
-  // 일기장 라인을 위한 라인 개수 계산
-  const numberOfLines = 20; // 기본 20줄
-  const lineHeight = 24;
-  const paddingTop = 12;
-  const defaultSpacing = 40;
   // 이미지 크기를 절반으로 축소하여 렌더(가로는 컨테이너 기준, 세로는 비율 유지 후 0.5배)
   const imageAspectHeight = (resolved?.width && resolved?.height)
     ? ((availableWidth * resolved.height) / resolved.width) * 1
@@ -40,7 +34,7 @@ export const TextBox = () => {
   const baseHeightForSnap = isDiaryWrittenToday
     ? Math.max(contentHeight || 0, imageAspectHeight)
     : (contentHeight || 0);
-  const snappedBottomY = paddingTop + Math.ceil(baseHeightForSnap / lineHeight) * lineHeight + defaultSpacing;
+  const snappedBottomY = PADDING_TOP + Math.ceil(baseHeightForSnap / LINE_HEIGHT) * LINE_HEIGHT + DEFAULT_SPACING;
 
   return (
     <View style={{ flex: 1 }}>
@@ -53,13 +47,13 @@ export const TextBox = () => {
       >
         <View className="flex-1 relative" onLayout={(e) => setContainerWidth(e.nativeEvent.layout.width)}>
       {/* 일기장 라인 배경 */}
-      <View className="absolute inset-0" style={{ paddingTop: paddingTop, paddingLeft: 16, paddingRight: 16 }}>
-        {Array.from({ length: numberOfLines }, (_, index) => (
+      <View className="absolute inset-0" style={{ paddingTop: PADDING_TOP, paddingLeft: HORIZONTAL_PADDING, paddingRight: HORIZONTAL_PADDING }}>
+        {Array.from({ length: NUMBER_OF_LINES }, (_, index) => (
           <View
             key={index}
             className="border-b border-line"
             style={{
-              height: lineHeight,
+              height: LINE_HEIGHT,
               marginBottom: 0,
             }}
           />
@@ -67,20 +61,22 @@ export const TextBox = () => {
       </View>
       
       <TextInput
-        className="font-kb2019 text-text-black text-base py-3 px-6 bg-transparent relative z-10"
+        className="font-kb2019 text-text-black py-3 px-6 bg-transparent relative z-10"
         inputAccessoryViewID={'DiaryAccessory'}
         value={text}
         onChangeText={handleTextChange}
         multiline
+        selectionColor="rgba(0, 0, 0, 0.3)"
         onContentSizeChange={(e) => {
           const h = e.nativeEvent.contentSize.height;
           setContentHeight(h);
         }}
         style={{
           fontFamily: 'KyoboHandwriting2019',
-          lineHeight: lineHeight,
+          fontSize: TEXT_SIZE,
+          lineHeight: LINE_HEIGHT,
           textAlignVertical: 'top',
-          minHeight: numberOfLines * lineHeight + 24, // 패딩 포함
+          minHeight: NUMBER_OF_LINES * LINE_HEIGHT + 24, // 패딩 포함
         }}
       />
 
@@ -89,9 +85,9 @@ export const TextBox = () => {
           pointerEvents="none"
           style={{
             position: 'absolute',
-            left: horizontalPadding,
-            right: horizontalPadding,
-            top: paddingTop,
+            left: HORIZONTAL_PADDING,
+            right: HORIZONTAL_PADDING,
+            top: PADDING_TOP,
             height: imageAspectHeight,
             zIndex: 15,
           }}
