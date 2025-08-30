@@ -4,6 +4,7 @@ import Animated, { Layout, ZoomIn, ZoomOut, useSharedValue, useAnimatedStyle, wi
 import { Text } from '@components/Text';
 import { useSaveDiaryFlow } from '@libs/hooks/useSaveDiaryFlow';
 import { useAnimationStore } from '@store/animationStore';
+import { DIARY_ANIMATION_CONSTANTS } from '@constants/DiaryAnimation';
 
 export const KeyboardAccessoryBar= () => {
   const [keyboardHeight, setKeyboardHeight] = useState(0);
@@ -22,7 +23,7 @@ export const KeyboardAccessoryBar= () => {
       (event: KeyboardEvent) => {
         setKeyboardHeight(event.endCoordinates.height);
         bottomPosition.value = withTiming(event.endCoordinates.height, {
-          duration: 250,
+          duration: DIARY_ANIMATION_CONSTANTS.KEYBOARD.ANIMATION_DURATION_MS,
           easing: Easing.out(Easing.cubic),
         });
       }
@@ -33,7 +34,7 @@ export const KeyboardAccessoryBar= () => {
       () => {
         setKeyboardHeight(0);
         bottomPosition.value = withTiming(0, {
-          duration: 250,
+          duration: DIARY_ANIMATION_CONSTANTS.KEYBOARD.ANIMATION_DURATION_MS,
           easing: Easing.out(Easing.cubic),
         });
       }
@@ -56,6 +57,16 @@ export const KeyboardAccessoryBar= () => {
     startSaveSequence(save);
   };
 
+  const handleBack = () => {
+    // 스케일을 줄이고 커버 닫기 (DiaryCover 애니메이션의 반대)
+    const { setTransformScale, startClosing } = useAnimationStore.getState();
+    setTransformScale(DIARY_ANIMATION_CONSTANTS.SCALE.CLOSED); // 스케일을 닫힌 상태로 줄임
+    setTimeout(() => {
+      startClosing(); // 커버 닫기
+    }, DIARY_ANIMATION_CONSTANTS.COVER.CLOSE_DELAY_MS); // 약간의 지연을 줘서 스케일 변화 후 커버 닫기
+    Keyboard.dismiss();
+  };
+
   const animatedStyle = useAnimatedStyle(() => {
     return {
       bottom: bottomPosition.value,
@@ -69,7 +80,15 @@ export const KeyboardAccessoryBar= () => {
     >
       <Text text={`${charactersCount}자`} type="kb2023" className="text-text-blue" />
 
-      <Animated.View layout={Layout.springify().stiffness(180).damping(16)} className="flex-row items-center">
+      <Animated.View layout={Layout.springify().stiffness(DIARY_ANIMATION_CONSTANTS.SPRING.LAYOUT_STIFFNESS).damping(DIARY_ANIMATION_CONSTANTS.SPRING.LAYOUT_DAMPING)} className="flex-row items-center">
+        <TouchableOpacity
+          onPress={handleBack}
+          activeOpacity={0.8}
+          className="h-8 px-3 mr-2 rounded-full border border-line justify-center items-center"
+        >
+          <Text text="← 뒤로가기" type="kb2023" className="text-text-black" />
+        </TouchableOpacity>
+        
         <TouchableOpacity
           onPress={handleDismiss}
           activeOpacity={0.8}
@@ -80,7 +99,7 @@ export const KeyboardAccessoryBar= () => {
 
         {showSave && (
           <Animated.View 
-          entering={ZoomIn.springify().stiffness(200).damping(16)} 
+          entering={ZoomIn.springify().stiffness(DIARY_ANIMATION_CONSTANTS.SPRING.SAVE_BUTTON_STIFFNESS).damping(DIARY_ANIMATION_CONSTANTS.SPRING.SAVE_BUTTON_DAMPING)} 
           exiting={ZoomOut}   
           style={{ zIndex: 1, overflow: 'visible' }}
           >

@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { DIARY_ANIMATION_CONSTANTS } from '@constants/DiaryAnimation';
 
 
 interface AnimationStore {
@@ -24,7 +25,7 @@ interface AnimationStore {
 export const useAnimationStore = create<AnimationStore>((set, get) => ({
   triggerId: 0,
   direction: 'close',
-  transformScale: 0.4, // 기본값 40%
+  transformScale: DIARY_ANIMATION_CONSTANTS.SCALE.CLOSED, // 기본값: 닫힌 상태 스케일
 
   startClosing: () => {
     const nextId = get().triggerId + 1;

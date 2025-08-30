@@ -2,14 +2,14 @@ import React from 'react';
 import { Dimensions, TouchableWithoutFeedback } from 'react-native';
 import Animated, { Easing, useAnimatedReaction, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useAnimationStore } from '@store/animationStore';
+import { DIARY_ANIMATION_CONSTANTS } from '@constants/DiaryAnimation';
 
 const { width, height } = Dimensions.get('window');
 
 // 일기장 덮개: 왼쪽에서 오른쪽으로 단일 커버가 닫히고 열리는 애니메이션
 export const DiaryCover = () => {
   // 0: 완전히 열림, 1: 완전히 닫힘 (초기값: 닫힌 상태)
-  const progress = useSharedValue(1);
-  const durationMs = 520;
+  const progress = useSharedValue(DIARY_ANIMATION_CONSTANTS.PROGRESS.FULLY_CLOSED);
 
   const { direction, triggerId } = useAnimationStore();
 
@@ -17,8 +17,8 @@ export const DiaryCover = () => {
     const { setTransformScale, startOpening } = useAnimationStore.getState()
     startOpening()
     setTimeout(() => {
-      setTransformScale(1)
-    }, 500)
+      setTransformScale(DIARY_ANIMATION_CONSTANTS.SCALE.OPENED)
+    }, DIARY_ANIMATION_CONSTANTS.COVER.SCALE_CHANGE_DELAY_MS)
   }
 
   useAnimatedReaction(
@@ -26,8 +26,8 @@ export const DiaryCover = () => {
     (state, prev) => {
       if (!state) return;
       if (prev && state.triggerId === prev.triggerId) return;
-      const toValue = state.direction === 'close' ? 1 : 0;
-      progress.value = withTiming(toValue, { duration: durationMs, easing: Easing.inOut(Easing.cubic) });
+      const toValue = state.direction === 'close' ? DIARY_ANIMATION_CONSTANTS.PROGRESS.FULLY_CLOSED : DIARY_ANIMATION_CONSTANTS.PROGRESS.FULLY_OPENED;
+      progress.value = withTiming(toValue, { duration: DIARY_ANIMATION_CONSTANTS.COVER.DURATION_MS, easing: Easing.inOut(Easing.cubic) });
     }
   );
 
@@ -37,13 +37,13 @@ export const DiaryCover = () => {
     return {
       width: animatedWidth,
       height,
-      backgroundColor: 'rgba(0,0,0,0.7)'
+      backgroundColor: `rgba(0,0,0,${DIARY_ANIMATION_CONSTANTS.COVER.OPACITY})`
     };
   });
 
   // 덮개가 완전히 열려있을 때(progress가 0에 가까울 때)는 터치 이벤트를 차단하지 않음
   const containerStyle = useAnimatedStyle(() => {
-    const shouldBlockTouch = progress.value > 0.1; // 10% 이상 닫혀있을 때만 터치 차단
+    const shouldBlockTouch = progress.value > DIARY_ANIMATION_CONSTANTS.COVER.TOUCH_THRESHOLD; // 임계값 이상 닫혀있을 때만 터치 차단
     return {
       pointerEvents: shouldBlockTouch ? 'auto' : 'none'
     };
