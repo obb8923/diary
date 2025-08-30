@@ -41,9 +41,20 @@ export const DiaryCover = () => {
     };
   });
 
+  // 덮개가 완전히 열려있을 때(progress가 0에 가까울 때)는 터치 이벤트를 차단하지 않음
+  const containerStyle = useAnimatedStyle(() => {
+    const shouldBlockTouch = progress.value > 0.1; // 10% 이상 닫혀있을 때만 터치 차단
+    return {
+      pointerEvents: shouldBlockTouch ? 'auto' : 'none'
+    };
+  });
+
   return (
     <TouchableWithoutFeedback onPress={handleCoverTouch}>
-      <Animated.View className="absolute inset-0 overflow-hidden z-40">
+      <Animated.View 
+        className="absolute inset-0 overflow-hidden z-40"
+        style={containerStyle}
+      >
         <Animated.View style={coverStyle} className="absolute left-0 top-0" />
       </Animated.View>
     </TouchableWithoutFeedback>

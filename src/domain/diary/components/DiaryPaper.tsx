@@ -31,13 +31,13 @@ export const DiaryPaper = () => {
         <TextBox />
       </View>
 
-      {isDiaryWrittenToday ? (
+      {/* {isDiaryWrittenToday ? (
         <View
           className="absolute inset-0 z-50"
           pointerEvents="auto"
           onStartShouldSetResponder={() => true}
         />
-      ) : null}
+      ) : null} */}
     </View>
   )
 }
