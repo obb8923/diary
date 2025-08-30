@@ -55,8 +55,8 @@ export const KeyboardAccessoryBar= () => {
 
   const handleBack = () => {
     // 뒤로가기 , 스케일을 줄이고 커버 닫기 (DiaryCover 애니메이션의 반대)
-    const { setTransformScale, startClosing } = useAnimationStore.getState();
-    setTransformScale(DIARY_ANIMATION_CONSTANTS.SCALE.CLOSED); // 스케일을 닫힌 상태로 줄임
+    const { animateToScale, startClosing } = useAnimationStore.getState();
+    animateToScale(DIARY_ANIMATION_CONSTANTS.SCALE.CLOSED); // 스케일을 닫힌 상태로 줄임
     setTimeout(() => {
       startClosing(); // 커버 닫기
     }, DIARY_ANIMATION_CONSTANTS.COVER.CLOSE_DELAY_MS); // 약간의 지연을 줘서 스케일 변화 후 커버 닫기

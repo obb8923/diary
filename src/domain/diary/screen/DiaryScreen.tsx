@@ -1,5 +1,5 @@
-import React from 'react';
-import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
+import React, { useEffect } from 'react';
+import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing } from 'react-native-reanimated';
 import { Background } from '@components/Background';
 import { Diary } from '@/domain/diary/components/Diary';
 import { useAnimationStore } from '@/shared/store/animationStore';
@@ -8,11 +8,19 @@ import { DIARY_ANIMATION_CONSTANTS } from '@constants/DiaryAnimation';
 
 export const DiaryScreen = () => {
   const transformScale = useAnimationStore(state => state.transformScale);
-  const scale = useSharedValue(1);
+  const scale = useSharedValue<number>(DIARY_ANIMATION_CONSTANTS.SCALE.CLOSED);
+
+  // transformScale 변화에 따라 부드럽게 애니메이션
+  useEffect(() => {
+    scale.value = withTiming(transformScale, {
+      duration: DIARY_ANIMATION_CONSTANTS.SCALE.TRANSITION_DURATION_MS,
+      easing: Easing.out(Easing.cubic)
+    });
+  }, [transformScale, scale]);
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
-      transform: [{ scale: withTiming(scale.value * transformScale, { duration: 300 }) }],
+      transform: [{ scale: scale.value }],
     };
   });
 

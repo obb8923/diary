@@ -15,6 +15,7 @@ interface AnimationStore {
   startClosing: () => void;
   startOpening: () => void;
   setTransformScale: (scale: number) => void;
+  animateToScale: (scale: number) => void;
 
   // 저장 애니메이션 시퀀스
   saveSequenceId: number;
@@ -40,6 +41,11 @@ export const useAnimationStore = create<AnimationStore>((set, get) => ({
   },
 
   setTransformScale: (scale: number) => {
+    set({ transformScale: scale });
+  },
+
+  animateToScale: (scale: number) => {
+    // 애니메이션은 컴포넌트에서 처리
     set({ transformScale: scale });
   },
 

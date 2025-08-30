@@ -8,6 +8,7 @@ export const DIARY_ANIMATION_CONSTANTS = {
   SCALE: {
     CLOSED: 0.5,  // 닫힌 상태 스케일 (50%)
     OPENED: 1,    // 열린 상태 스케일 (100%)
+    TRANSITION_DURATION_MS: 500,  // 스케일 변화 애니메이션 시간
   },
   
   // 커버 애니메이션 관련

@@ -12,10 +12,10 @@ export const DiaryCover = () => {
   const { direction, triggerId } = useAnimationStore();
 
   const handleCoverTouch = () => {
-    const { setTransformScale, startOpening } = useAnimationStore.getState()
+    const { animateToScale, startOpening } = useAnimationStore.getState()
     startOpening()
     setTimeout(() => {
-      setTransformScale(DIARY_ANIMATION_CONSTANTS.SCALE.OPENED)
+      animateToScale(DIARY_ANIMATION_CONSTANTS.SCALE.OPENED)
     }, DIARY_ANIMATION_CONSTANTS.COVER.SCALE_CHANGE_DELAY_MS)
   }
 
