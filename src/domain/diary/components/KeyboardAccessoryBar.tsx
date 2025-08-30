@@ -48,6 +48,8 @@ export const KeyboardAccessoryBar= () => {
 
   const handleSave = async () => {
     if (!canSave) return;
+    // 키보드가 열려있으면 명시적으로 닫기
+    Keyboard.dismiss();
     startSaveSequence(save);
   };
 

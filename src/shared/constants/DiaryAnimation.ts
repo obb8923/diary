@@ -1,3 +1,5 @@
+import { DEVICE_HEIGHT } from './normal';
+
 /**
  * 일기장 애니메이션 관련 상수들
  */
@@ -11,7 +13,7 @@ export const DIARY_ANIMATION_CONSTANTS = {
   // 커버 애니메이션 관련
   COVER: {
     DURATION_MS: 520,              // 커버 열림/닫힘 애니메이션 시간
-    OPACITY: 0.7,                  // 커버 불투명도
+    OPACITY: 1,                  // 커버 불투명도
     TOUCH_THRESHOLD: 0.1,          // 터치 차단 임계값 (10%)
     SCALE_CHANGE_DELAY_MS: 500,    // 스케일 변경 지연 시간
     CLOSE_DELAY_MS: 100,           // 커버 닫기 지연 시간
@@ -41,12 +43,12 @@ export const DIARY_ANIMATION_CONSTANTS = {
     SCALE_DURATION_MS: 600,       // 스케일 애니메이션 시간
     ROTATE_DURATION_MS: 800,      // 회전 애니메이션 시간
     LIFT_DURATION_MS: 700,        // 리프트 애니메이션 시간
-    REVERSE_DURATION_MS: 900,     // 역방향 애니메이션 시간
-    SMALL_SCALE: 0.3,             // 작아질 때 스케일
-    LIFT_OFFSET: -300,            // 위로 올릴 때 Y 오프셋
-    STEP_DELAY_MS: 300,           // 각 단계 간 지연 시간
+    REVERSE_DURATION_MS: 1900,     // 역방향 애니메이션 시간
+    SMALL_SCALE: 0.4,             // 작아질 때 스케일 (SCALE.CLOSED와 동일해야 한다)
+    LIFT_OFFSET: DEVICE_HEIGHT * 1.5,  // 디바이스 위로 이동 높이
+    STEP_DELAY_MS: 500,           // 각 단계 간 지연 시간
     ROTATE_DEGREES: 180,          // 회전 각도 (시계방향)
-    MIN_WAIT_TIME_MS: 500,        // 저장 결과 최소 대기 시간
+    MIN_WAIT_TIME_MS: 1000,       // 애니메이션 완료 후 대기 시간 (다이어리가 위에 있는 시간)
     WAITING_STEP: 'waiting_for_result', // 결과 대기 단계
   },
 } as const;

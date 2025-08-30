@@ -18,10 +18,10 @@ interface AnimationStore {
 
   // 저장 애니메이션 시퀀스
   saveSequenceId: number;
-  saveAnimationStep: 'idle' | 'saving' | 'scaling' | 'rotating' | 'lifting' | 'waiting_for_result' | 'reversing' | 'showing_result';
+  saveAnimationStep: 'idle' | 'saving' | 'scaling' | 'closing_cover' | 'rotating' | 'lifting' | 'waiting_for_result' | 'reversing' | 'reverse_lifting' | 'reverse_rotating' | 'opening_cover' | 'reverse_scaling' | 'showing_result';
   runSave: (() => Promise<void>) | null;
   startSaveSequence: (runSave: () => Promise<void>) => void;
-  setSaveAnimationStep: (step: 'idle' | 'saving' | 'scaling' | 'rotating' | 'lifting' | 'waiting_for_result' | 'reversing' | 'showing_result') => void;
+  setSaveAnimationStep: (step: 'idle' | 'saving' | 'scaling' | 'closing_cover' | 'rotating' | 'lifting' | 'waiting_for_result' | 'reversing' | 'reverse_lifting' | 'reverse_rotating' | 'opening_cover' | 'reverse_scaling' | 'showing_result') => void;
 }
 
 export const useAnimationStore = create<AnimationStore>((set, get) => ({

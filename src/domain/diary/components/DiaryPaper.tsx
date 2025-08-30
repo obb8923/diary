@@ -20,20 +20,11 @@ export const DiaryPaper = () => {
   useEffect(() => {
     const executeSave = async () => {
       if (saveAnimationStep === 'saving' && runSave) {
-        const startTime = Date.now();
         try {
           await runSave();
           console.log('저장 완료!');
-          
-          // 최소 대기 시간 체크
-          const elapsedTime = Date.now() - startTime;
-          const remainingTime = Math.max(0, DIARY_ANIMATION_CONSTANTS.SAVE_ANIMATION.MIN_WAIT_TIME_MS - elapsedTime);
-          
-          setTimeout(() => {
-            // 저장 완료 후 역방향 애니메이션 시작 신호
-            setSaveAnimationStep('reversing');
-          }, remainingTime);
-          
+          // 저장은 완료되었지만 애니메이션 완료까지 기다림
+          // waiting_for_result 단계에서 실제 대기 처리
         } catch (error) {
           console.error('저장 실행 오류:', error);
           setSaveAnimationStep('idle');
@@ -42,7 +33,17 @@ export const DiaryPaper = () => {
     };
     
     executeSave();
-  }, [saveSequenceId, saveAnimationStep, runSave, setSaveAnimationStep])
+  }, [saveSequenceId, saveAnimationStep, runSave, setSaveAnimationStep]);
+
+  // 애니메이션 완료 후 대기 처리
+  useEffect(() => {
+    if (saveAnimationStep === 'waiting_for_result') {
+      // 애니메이션이 완료된 후 최소 대기 시간 후 역방향 애니메이션 시작
+      setTimeout(() => {
+        setSaveAnimationStep('reversing');
+      }, DIARY_ANIMATION_CONSTANTS.SAVE_ANIMATION.MIN_WAIT_TIME_MS);
+    }
+  }, [saveAnimationStep, setSaveAnimationStep]);
   return (
     <View className='flex-1'>
       {/* 날짜, 날씨 영역 */}
