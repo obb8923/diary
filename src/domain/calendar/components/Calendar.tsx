@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Text } from '@components/Text';
+import { CalendarBottomPanel } from './CalendarBottomPanel';
+import { DiaryEntry } from '@/shared/types/diary';
+
 interface CalendarProps {
   onDateSelect?: (date: Date) => void;
   selectedDate?: Date;
+  selectedDiary?: DiaryEntry | null | undefined;
 }
 
-export const Calendar = ({ onDateSelect, selectedDate }: CalendarProps) => {
+export const Calendar = ({ onDateSelect, selectedDate, selectedDiary }: CalendarProps) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   
   // 월의 첫 번째 날을 가져오기
@@ -181,6 +185,12 @@ export const Calendar = ({ onDateSelect, selectedDate }: CalendarProps) => {
           ))}
         </View>
       ))}
+      
+      {/* CalendarBottomPanel 추가 */}
+      <CalendarBottomPanel
+        selectedDate={selectedDate || null}
+        selectedDiary={selectedDiary}
+      />
     </View>
   );
 };
