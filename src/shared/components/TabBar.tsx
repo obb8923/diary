@@ -47,9 +47,9 @@ export const TabBar = () => {
 
   return (
     // 전체 컨테이너 (위치)
-    <View className="w-full flex-row justify-between items-center absolute bottom-0 px-16">
+    <View className="w-full flex-row justify-end items-center absolute bottom-0  z-50 pr-8 bg-black/50">
       {/* 탭 컨테이너 */}
-    <View className="w-5/12 flex-row bg-blue-500 rounded-full px-3 py-2 items-center justify-evenly">
+    <View className="w-1/3 flex-row  px-3 py-2 items-center justify-evenly">
       {tabs.map((tab, index) => {
         const isActive = activeTab === tab.name;
         const Icon = tab.icon;
@@ -58,7 +58,7 @@ export const TabBar = () => {
           <TouchableOpacity
             key={tab.name}
             className={`items-center justify-center w-12 h-12 rounded-full ${
-              isActive ? 'bg-background' : 'bg-transparent'
+              isActive ? 'bg-background/80' : 'bg-transparent'
             }`}
             onPress={() => handleTabPress(tab.name)}
             activeOpacity={0.7}
@@ -66,7 +66,7 @@ export const TabBar = () => {
             <Icon 
               width={22} 
               height={22} 
-              color={isActive ? Colors.blue500 : Colors.background}
+              color={isActive ? Colors.blue900 : Colors.background}
             />
           </TouchableOpacity>
         );
