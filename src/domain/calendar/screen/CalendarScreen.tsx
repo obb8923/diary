@@ -34,7 +34,7 @@ export const CalendarScreen = () => {
   }, [selectedDate]);
 
   return (
-    <Background isStatusBarGap={true} isTabBarGap={true} isImage={false}>
+    <Background isStatusBarGap={true} isTabBarGap={true} isImage={2}>
       <TabBar />
 
       <ScrollView className="flex-1 px-4 py-6">

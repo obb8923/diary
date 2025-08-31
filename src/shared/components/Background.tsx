@@ -7,11 +7,11 @@ type BackgroundProps = {
   style?: ViewStyle | ViewStyle[];
   isStatusBarGap?: boolean;
   isTabBarGap?: boolean;
-  isImage?: boolean;
+  isImage?: 0|1|2;
 }
-export const Background = ({children,isStatusBarGap=false,isTabBarGap=false,isImage=false,...props}: BackgroundProps) => {
+export const Background = ({children,isStatusBarGap=false,isTabBarGap=false,isImage=0,...props}: BackgroundProps) => {
   const insets = useSafeAreaInsets();
-  if(isImage){
+  if(isImage===1){
     return (
       <View 
       className={`flex-1 bg-background ${props.className}`} 
@@ -24,6 +24,22 @@ export const Background = ({children,isStatusBarGap=false,isTabBarGap=false,isIm
       >
         {children}
       </ImageBackground>
+      </View>
+    )
+  }
+  if(isImage===2){
+    return (
+      <View 
+      className={`flex-1 bg-background ${props.className}`} 
+      style={{
+        paddingTop: isStatusBarGap ? insets.top : 0, 
+        paddingBottom: isTabBarGap ? insets.bottom : 0, ...props.style}}>
+        <ImageBackground 
+        source={require('../../../assets/Background/B2.png')} 
+        className="flex-1" 
+        >
+          {children}
+        </ImageBackground>
       </View>
     )
   }

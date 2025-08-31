@@ -25,7 +25,7 @@ export const DiaryScreen = () => {
   });
 
   return (
-    <Background isStatusBarGap={true} isTabBarGap={true} isImage={true}>
+    <Background isStatusBarGap={true} isTabBarGap={true} isImage={1}>
       {transformScale !== 1 && <TabBar />}
       <Animated.View 
         style={[
