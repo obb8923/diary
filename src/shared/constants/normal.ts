@@ -14,7 +14,6 @@ export const FLOWER_IMAGES = [
   require('../../../assets/pngs/flower3.png'),
   require('../../../assets/pngs/flower4.png'),
   require('../../../assets/pngs/flower5.png'),
-  require('../../../assets/pngs/flower6.png'),
 ] as const;
 
 export const FLOWER_IMAGE_COUNT = FLOWER_IMAGES.length;

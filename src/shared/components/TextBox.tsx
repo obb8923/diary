@@ -3,7 +3,7 @@ import { TextInput, View, Image, Platform } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Text } from '@components/Text';
 import { useDiary } from '@libs/hooks/useDiary';
-import { DEVICE_WIDTH, FLOWER_IMAGES, TEXT_SIZE, LINE_HEIGHT, PADDING_TOP, HORIZONTAL_PADDING, DEFAULT_SPACING, NUMBER_OF_LINES } from '@constants/normal';
+import { DEVICE_WIDTH, FLOWER_IMAGES, FLOWER_IMAGE_COUNT,TEXT_SIZE, LINE_HEIGHT, PADDING_TOP, HORIZONTAL_PADDING, DEFAULT_SPACING, NUMBER_OF_LINES } from '@constants/normal';
 import { KeyboardAccessoryBar } from '@/domain/diary/components/KeyboardAccessoryBar';
 
 export const TextBox = () => {
@@ -11,8 +11,8 @@ export const TextBox = () => {
   const [text, setText] = useState('');
   const [contentHeight, setContentHeight] = useState(0);
   const [containerWidth, setContainerWidth] = useState(DEVICE_WIDTH);
-  // 저장된 인덱스(1~6)를 소스에 매핑. 유효하지 않으면 1번 사용
-  const flowerSource = FLOWER_IMAGES[(Math.max(1, Math.min((currentFlowerIndex || 1), FLOWER_IMAGES.length)) - 1)];
+  // 저장된 인덱스(1~5)를 소스에 매핑. 유효하지 않으면 1번 사용
+  const flowerSource = FLOWER_IMAGES[(Math.max(1, Math.min((currentFlowerIndex || 1), FLOWER_IMAGE_COUNT))) - 1];
   const resolved = Image.resolveAssetSource(flowerSource);//원본 크기 추출하기 위함
   const availableWidth = Math.max(0, containerWidth - HORIZONTAL_PADDING * 2);
 
