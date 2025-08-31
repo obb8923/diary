@@ -70,7 +70,7 @@ export const DiaryCover = () => {
       >
         <Animated.View onLayout={onCoverLayout} style={cover3DStyle} className="absolute left-0 top-0 h-full w-full">
           <Image 
-            source={require('@assets/Cover/A1.jpg')} 
+            source={require('@assets/Cover/C1.png')} 
             className="w-full h-full"
             resizeMode="cover"
           />
