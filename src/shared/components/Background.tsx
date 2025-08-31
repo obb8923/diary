@@ -20,7 +20,7 @@ export const Background = ({children,isStatusBarGap=false,isTabBarGap=false,isIm
         paddingBottom: isTabBarGap ? insets.bottom : 0, ...props.style}}>
       <ImageBackground 
       source={require('../../../assets/Background/B1.png')} 
-      className={`flex-1 ${props.className}`} 
+      className="flex-1" 
       >
         {children}
       </ImageBackground>
@@ -33,7 +33,9 @@ export const Background = ({children,isStatusBarGap=false,isTabBarGap=false,isIm
     style={{
       paddingTop: isStatusBarGap ? insets.top : 0, 
       paddingBottom: isTabBarGap ? insets.bottom : 0, ...props.style}}>
+        <View className="flex-1">
       {children}
+      </View>
     </View>    
   )
 }

@@ -47,7 +47,7 @@ export const TabBar = () => {
 
   return (
     // 전체 컨테이너 (위치)
-    <View className="w-11/12 flex-row justify-between items-center absolute bottom-12 px-16">
+    <View className="w-full flex-row justify-between items-center absolute bottom-0 px-16">
       {/* 탭 컨테이너 */}
     <View className="w-5/12 flex-row bg-blue-500 rounded-full px-3 py-2 items-center justify-evenly">
       {tabs.map((tab, index) => {
