@@ -1,8 +1,8 @@
 import React from 'react';
-import {CalendarStack} from '../stack/Calendar';
-import {DiaryStack} from '../stack/Diary';
-import {ProfileStack} from '../stack/Profile';
-import { useActiveTab } from '../../store/tabStore';
+import {CalendarStack} from '@nav/stack/Calendar';
+import {DiaryStack} from '@nav/stack/Diary';
+import {EtcStack} from '@nav/stack/Etc';
+import { useActiveTab } from '@store/tabStore';
 
 export const AppTab = () => {
   const activeTab = useActiveTab();
@@ -13,8 +13,8 @@ export const AppTab = () => {
       return <DiaryStack />;
     case 'Calendar':
       return <CalendarStack />;
-    case 'Profile':
-      return <ProfileStack />;
+    case 'Etc':
+      return <EtcStack />;
     default:
       return <DiaryStack />; 
   }

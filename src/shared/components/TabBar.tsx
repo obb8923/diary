@@ -20,7 +20,7 @@ interface TabInfo {
 const tabs: TabInfo[] = [
   { name: 'Diary', icon: PencilIcon },
   { name: 'Calendar', icon: CalendarIcon },
-  // { name: 'Profile', icon: DotsIcon },
+  { name: 'Etc', icon: DotsIcon },
 ];
 
 export const TabBar = () => {

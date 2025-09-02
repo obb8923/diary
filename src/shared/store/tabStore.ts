@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 // 탭 이름 타입 정의
-export type TabName = 'Diary' | 'Calendar' | 'Profile';
+export type TabName = 'Diary' | 'Calendar' | 'Etc';
 
 // 탭 스토어 인터페이스
 interface TabStore {

@@ -158,7 +158,7 @@ export const Calendar = ({ onDateSelect, selectedDate, selectedDiary }: Calendar
   const weeks = generateCalendarWeeks();
   
   return (
-    <View className="bg-background p-4 rounded-lg border-2 border-line mb-3">
+    <View className="bg-background p-4 rounded-lg border-2 border-line">
       {/* 헤더 - 월/년 표시 및 네비게이션 */}
       <View className="flex-row justify-between items-center mb-6">
         <TouchableOpacity

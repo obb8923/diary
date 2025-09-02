@@ -30,7 +30,7 @@ export const CalendarScreen = () => {
 
       <ScrollView 
       className="flex-1 px-4 py-6"
-      
+      contentContainerStyle={{ paddingBottom: 84 }}
       >
         {/* 캘린더 컴포넌트 (CalendarBottomPanel 포함) */}
         <Calendar
