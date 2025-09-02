@@ -59,6 +59,41 @@ export class StorageService {
       return [];
     }
   }
+
+  /**
+   * 특정 월의 일기들을 가져옵니다
+   * @param year 연도 (예: 2024)
+   * @param month 월 (1-12)
+   */
+  static async getMonthlyDiaries(year: number, month: number): Promise<{date: string, entry: DiaryEntry}[]> {
+    try {
+      const allKeys = await AsyncStorage.getAllKeys();
+      const diaryKeys = allKeys.filter(key => key.startsWith(this.DIARY_KEY_PREFIX));
+      
+      // 해당 월의 키만 필터링 (YYYY-MM 형식으로 시작하는 키들)
+      const monthPrefix = `${year}-${String(month).padStart(2, '0')}`;
+      const monthlyKeys = diaryKeys.filter(key => {
+        const date = key.replace(this.DIARY_KEY_PREFIX, '');
+        return date.startsWith(monthPrefix);
+      });
+      
+      const entries = await Promise.all(
+        monthlyKeys.map(async (key) => {
+          const entryJson = await AsyncStorage.getItem(key);
+          const date = key.replace(this.DIARY_KEY_PREFIX, '');
+          return {
+            date,
+            entry: entryJson ? JSON.parse(entryJson) : null
+          };
+        })
+      );
+      
+      return entries.filter(item => item.entry !== null);
+    } catch (error) {
+      console.error('월별 일기 조회 오류:', error);
+      return [];
+    }
+  }
   
   /**
    * 특정 날짜의 일기를 삭제합니다

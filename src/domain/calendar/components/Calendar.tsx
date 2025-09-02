@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Text } from '@components/Text';
 import { CalendarBottomPanel } from './CalendarBottomPanel';
 import { DiaryEntry } from '@/shared/types/diary';
+import { StorageService } from '@/shared/services/storageService';
 
 interface CalendarProps {
   onDateSelect?: (date: Date) => void;
@@ -12,6 +13,24 @@ interface CalendarProps {
 
 export const Calendar = ({ onDateSelect, selectedDate, selectedDiary }: CalendarProps) => {
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [diaryDates, setDiaryDates] = useState<Set<string>>(new Set());
+  
+  // 현재 월의 일기가 있는 날짜들을 불러오기
+  useEffect(() => {
+    const loadMonthlyDiaryDates = async () => {
+      try {
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth() + 1; // 0부터 시작하므로 +1
+        const monthlyDiaries = await StorageService.getMonthlyDiaries(year, month);
+        const dateSet = new Set(monthlyDiaries.map(diary => diary.date));
+        setDiaryDates(dateSet);
+      } catch (error) {
+        console.error('월별 일기 날짜 로딩 오류:', error);
+      }
+    };
+
+    loadMonthlyDiaryDates();
+  }, [currentDate]); // currentDate가 변경될 때마다 실행
   
   // 월의 첫 번째 날을 가져오기
   const getFirstDayOfMonth = (date: Date) => {
@@ -92,8 +111,18 @@ export const Calendar = ({ onDateSelect, selectedDate, selectedDiary }: Calendar
     );
   };
   
+  // 특정 날짜에 일기가 있는지 확인
+  const hasDiaryOnDate = (date: Date) => {
+    // 로컬 시간대를 기준으로 YYYY-MM-DD 형식 생성
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const dateString = `${year}-${month}-${day}`;
+    return diaryDates.has(dateString);
+  };
+
   // 오늘 날짜인지 확인
-  const isDiaryWrittenToday = (date: Date) => {
+  const isToday = (date: Date) => {
     const today = new Date();
     return (
       date.getFullYear() === today.getFullYear() &&
@@ -107,7 +136,7 @@ export const Calendar = ({ onDateSelect, selectedDate, selectedDiary }: Calendar
     if (isSelectedDate(date)) {
       return 'text-white';
     }
-    if (isDiaryWrittenToday(date)) {
+    if (isToday(date)) {
       return 'text-blue-600 font-semibold';
     }
     if (dayIndex === 0) { // 일요일
@@ -129,7 +158,7 @@ export const Calendar = ({ onDateSelect, selectedDate, selectedDiary }: Calendar
   const weeks = generateCalendarWeeks();
   
   return (
-    <View className="bg-background p-4 rounded-lg border-2 border-line mb-32">
+    <View className="bg-background p-4 rounded-lg border-2 border-line mb-3">
       {/* 헤더 - 월/년 표시 및 네비게이션 */}
       <View className="flex-row justify-between items-center mb-6">
         <TouchableOpacity
@@ -168,15 +197,18 @@ export const Calendar = ({ onDateSelect, selectedDate, selectedDiary }: Calendar
               {date ? (
                 <TouchableOpacity
                   onPress={() => handleDateSelect(date)}
-                  className={`w-10 h-10 justify-center items-center rounded-lg ${
+                  className={`w-10 h-10 justify-center items-center rounded-lg relative ${
                     isSelectedDate(date)
                       ? 'bg-blue-500'
-                      : isDiaryWrittenToday(date)
+                      : isToday(date)
                       ? 'bg-blue-100'
                       : 'bg-transparent'
                   }`}
                 >
                   <Text text={date.getDate().toString()} type="semibold" className={getDateTextColor(date, dayIndex)} />
+                  {hasDiaryOnDate(date) && (
+                    <View className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
+                  )}
                 </TouchableOpacity>
               ) : (
                 <View className="w-10 h-10" />
