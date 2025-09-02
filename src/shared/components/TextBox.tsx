@@ -5,13 +5,16 @@ import { Text } from '@components/Text';
 import { useDiary } from '@libs/hooks/useDiary';
 import { DEVICE_WIDTH, FLOWER_IMAGES, FLOWER_IMAGE_COUNT,TEXT_SIZE, LINE_HEIGHT, PADDING_TOP, HORIZONTAL_PADDING, NUMBER_OF_LINES } from '@constants/normal';
 import { KeyboardAccessoryBar } from '@/domain/diary/components/KeyboardAccessoryBar';
+import { useAnimationStore } from '@store/animationStore';
+import { DIARY_ANIMATION_CONSTANTS } from '@constants/DiaryAnimation';
 
 export const TextBox = () => {
   const { currentComment, currentContent,setCurrentContent,isDiaryWrittenToday, currentFlowerIndex } = useDiary();
+  const { transformScale } = useAnimationStore();
   const [text, setText] = useState('');
   const [contentHeight, setContentHeight] = useState(0);
   const [containerWidth, setContainerWidth] = useState(DEVICE_WIDTH);
-  // 저장된 인덱스(1~5)를 소스에 매핑. 유효하지 않으면 1번 사용
+  // 저장된 인덱스(1~4)를 소스에 매핑. 유효하지 않으면 1번 사용
   const flowerSource = FLOWER_IMAGES[(Math.max(1, Math.min((currentFlowerIndex || 1), FLOWER_IMAGE_COUNT))) - 1];
  
   const handleTextChange = (newText: string) => {
@@ -79,8 +82,8 @@ export const TextBox = () => {
           minHeight: NUMBER_OF_LINES * LINE_HEIGHT + 24, // 패딩 포함
         }}
       />
-      {/* 작은 이미지 - 글 바로 밑 오른쪽에 배치 */}
-      {isDiaryWrittenToday ? (
+      {/* 작은 이미지 - 글 바로 밑 오른쪽에 배치 - scale이 1일 때만 표시 */}
+      {isDiaryWrittenToday && transformScale === DIARY_ANIMATION_CONSTANTS.SCALE.OPENED ? (
         <View
           pointerEvents="none"
           style={{
@@ -100,7 +103,7 @@ export const TextBox = () => {
         </View>
       ) : null}
   
-        {currentComment ? (
+        {currentComment && transformScale === DIARY_ANIMATION_CONSTANTS.SCALE.OPENED ? (
           <View
             pointerEvents="box-none"
             className="absolute left-0 right-0 z-20 px-6"
