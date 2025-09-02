@@ -30,6 +30,15 @@ export const HORIZONTAL_PADDING = 16;
 export const DEFAULT_SPACING = 40;
 export const NUMBER_OF_LINES = 20;
 
+export const SMALL_IMAGE_SIZE = 80;
+
+// 텍스트 영역의 최소 높이 계산 (라인 배경과 패딩 고려)
+export const TEXT_AREA_PADDING_VERTICAL = 12; // py-3 = 12px (상하 각각)
+export const MIN_TEXT_HEIGHT = PADDING_TOP + (NUMBER_OF_LINES * LINE_HEIGHT) + TEXT_AREA_PADDING_VERTICAL;
+
+export const dateStyle: string = 'text-text-black text-2xl'
+export const commentStyle: string = 'text-text-blue text-xl'
+
 // 키보드 액세서리 바 관련 상수
 export const KEYBOARD_ACCESSORY_BAR_HEIGHT = 48; // h-12 = 48px
 

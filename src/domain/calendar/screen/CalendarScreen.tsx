@@ -28,7 +28,10 @@ export const CalendarScreen = () => {
     <Background isStatusBarGap={true} isTabBarGap={true} isImage={2}>
       <TabBar />
 
-      <ScrollView className="flex-1 px-4 py-6">
+      <ScrollView 
+      className="flex-1 px-4 py-6"
+      
+      >
         {/* 캘린더 컴포넌트 (CalendarBottomPanel 포함) */}
         <Calendar
           onDateSelect={(date) => setSelectedDate(date)}

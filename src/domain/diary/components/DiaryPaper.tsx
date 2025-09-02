@@ -7,11 +7,11 @@ import { useDiary } from '../../../shared/libs/hooks/useDiary'
 import { formatSelectedDate } from '../../../shared/libs/date'
 import { useAnimationStore } from '@store/animationStore'
 import { DIARY_ANIMATION_CONSTANTS } from '@constants/DiaryAnimation'
+import { dateStyle, commentStyle } from '@constants/normal'
 
 export const DiaryPaper = () => {
   const { currentDate, isDiaryWrittenToday } = useDiary()
   const { year, month, day } = formatSelectedDate(currentDate)
-  const dateStyle: string = 'text-text-black text-2xl'
   
   // 저장 시퀀스 관련 상태
   const { saveSequenceId, saveAnimationStep, runSave, setSaveAnimationStep } = useAnimationStore()
@@ -22,9 +22,6 @@ export const DiaryPaper = () => {
       if (saveAnimationStep === 'saving' && runSave) {
         try {
           await runSave();
-          console.log('저장 완료!');
-          // 저장은 완료되었지만 애니메이션 완료까지 기다림
-          // waiting_for_result 단계에서 실제 대기 처리
         } catch (error) {
           console.error('저장 실행 오류:', error);
           setSaveAnimationStep('idle');

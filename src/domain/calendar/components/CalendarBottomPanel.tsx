@@ -24,7 +24,7 @@ export const CalendarBottomPanel = ({
   }
 
   return (
-    <View className="mt-4 border-t border-line border-dashed">
+    <View className="mt-4 border-t border-line border-dashed pt-8">
       {selectedDiary ? (
         <DiaryPreview date={selectedDate} entry={selectedDiary} />
       ) : (

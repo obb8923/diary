@@ -3,7 +3,7 @@ import { TextInput, View, Image, Platform } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Text } from '@components/Text';
 import { useDiary } from '@libs/hooks/useDiary';
-import { DEVICE_WIDTH, FLOWER_IMAGES, FLOWER_IMAGE_COUNT,TEXT_SIZE, LINE_HEIGHT, PADDING_TOP, HORIZONTAL_PADDING, NUMBER_OF_LINES } from '@constants/normal';
+import { FLOWER_IMAGES, FLOWER_IMAGE_COUNT,TEXT_SIZE, LINE_HEIGHT, PADDING_TOP, HORIZONTAL_PADDING, NUMBER_OF_LINES, SMALL_IMAGE_SIZE, commentStyle, MIN_TEXT_HEIGHT } from '@constants/normal';
 import { KeyboardAccessoryBar } from '@/domain/diary/components/KeyboardAccessoryBar';
 import { useAnimationStore } from '@store/animationStore';
 import { DIARY_ANIMATION_CONSTANTS } from '@constants/DiaryAnimation';
@@ -13,7 +13,6 @@ export const TextBox = () => {
   const { transformScale } = useAnimationStore();
   const [text, setText] = useState('');
   const [contentHeight, setContentHeight] = useState(0);
-  const [containerWidth, setContainerWidth] = useState(DEVICE_WIDTH);
   // 저장된 인덱스(1~4)를 소스에 매핑. 유효하지 않으면 1번 사용
   const flowerSource = FLOWER_IMAGES[(Math.max(1, Math.min((currentFlowerIndex || 1), FLOWER_IMAGE_COUNT))) - 1];
  
@@ -27,14 +26,10 @@ export const TextBox = () => {
     setText(currentContent || '');
   }, [currentContent]);
 
-  // 액세서리 바는 별도 컴포넌트가 제어
-
-  // 작은 이미지 크기 계산 (글 옆에 배치할 작은 이미지)
-  const smallImageSize = 80; // 작은 이미지 크기 (정사각형)
   
   // 실제 텍스트 내용 바로 밑에 이미지가 오도록 위치 계산
   const textBottomY = PADDING_TOP + (contentHeight || 0); // 텍스트 바로 밑
-  const commentTopY = textBottomY + smallImageSize; // 이미지 바로 밑
+  const commentTopY = textBottomY + SMALL_IMAGE_SIZE; // 이미지 바로 밑
 
   return (
     <View style={{ flex: 1 }}>
@@ -45,7 +40,7 @@ export const TextBox = () => {
         keyboardShouldPersistTaps="handled"
         extraScrollHeight={24}
       >
-        <View className="flex-1 relative" onLayout={(e) => setContainerWidth(e.nativeEvent.layout.width)}>
+        <View className="flex-1 relative">
       {/* 일기장 라인 배경 */}
       <View className="absolute inset-0" style={{ paddingTop: PADDING_TOP, paddingLeft: HORIZONTAL_PADDING, paddingRight: HORIZONTAL_PADDING }}>
         {Array.from({ length: NUMBER_OF_LINES }, (_, index) => (
@@ -79,7 +74,7 @@ export const TextBox = () => {
           fontSize: TEXT_SIZE,
           lineHeight: LINE_HEIGHT,
           textAlignVertical: 'top',
-          minHeight: NUMBER_OF_LINES * LINE_HEIGHT + 24, // 패딩 포함
+          minHeight: MIN_TEXT_HEIGHT, // 라인 배경과 패딩을 고려한 정확한 최소 높이
         }}
       />
       {/* 작은 이미지 - 글 바로 밑 오른쪽에 배치 - scale이 1일 때만 표시 */}
@@ -90,8 +85,8 @@ export const TextBox = () => {
             position: 'absolute',
             right: HORIZONTAL_PADDING,
             top: textBottomY,
-            width: smallImageSize,
-            height: smallImageSize,
+            width: SMALL_IMAGE_SIZE,
+            height: SMALL_IMAGE_SIZE,
             zIndex: 15,
           }}
         >
@@ -112,7 +107,7 @@ export const TextBox = () => {
             <Text 
               text={currentComment} 
               type="kb2023" 
-              className="text-text-blue text-xl"
+              className={commentStyle}
               style={{ transform: [{ rotate: '-1deg' }] }}
             />
           </View>
