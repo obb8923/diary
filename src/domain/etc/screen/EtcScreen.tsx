@@ -1,7 +1,10 @@
 import { View, ScrollView, TouchableOpacity, Alert } from "react-native"
+import { useNavigation } from "@react-navigation/native"
 import { Background } from "@components/Background" 
 import { TabBar } from "@/shared/components/TabBar"
 import { Text } from "@/shared/components/Text"
+import { EtcStackParamList } from "@/shared/nav/stack/Etc"
+import { NativeStackNavigationProp } from "@react-navigation/native-stack"
 
 const MenuItem = ({ title, onPress }: { title: string; onPress: () => void }) => (
   <TouchableOpacity 
@@ -17,8 +20,17 @@ const MenuItem = ({ title, onPress }: { title: string; onPress: () => void }) =>
 )
 
 export const EtcScreen = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<EtcStackParamList>>()
+  
   const handleMenuPress = (menuName: string) => {
     Alert.alert('알림', `${menuName} 메뉴가 선택되었습니다.`)
+  }
+
+  const handleInquiryPress = () => {
+    navigation.navigate('WebView', {
+      url: 'https://docs.google.com/forms/d/1UwFIDg3nLWFeGyZTOcXMOe4Nvoy5z6NtjOu3rtB8RLc/edit',
+      title: '문의하기'
+    })
   }
 
   return (
@@ -44,7 +56,7 @@ export const EtcScreen = () => {
           />
           <MenuItem 
             title="문의하기" 
-            onPress={() => handleMenuPress('문의하기')} 
+            onPress={handleInquiryPress} 
           />
 
       
