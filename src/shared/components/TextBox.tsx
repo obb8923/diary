@@ -3,7 +3,7 @@ import { TextInput, View, Image, Platform } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Text } from '@components/Text';
 import { useDiary } from '@libs/hooks/useDiary';
-import { DEVICE_WIDTH, FLOWER_IMAGES, FLOWER_IMAGE_COUNT,TEXT_SIZE, LINE_HEIGHT, PADDING_TOP, HORIZONTAL_PADDING, DEFAULT_SPACING, NUMBER_OF_LINES } from '@constants/normal';
+import { DEVICE_WIDTH, FLOWER_IMAGES, FLOWER_IMAGE_COUNT,TEXT_SIZE, LINE_HEIGHT, PADDING_TOP, HORIZONTAL_PADDING, NUMBER_OF_LINES } from '@constants/normal';
 import { KeyboardAccessoryBar } from '@/domain/diary/components/KeyboardAccessoryBar';
 
 export const TextBox = () => {
@@ -13,9 +13,7 @@ export const TextBox = () => {
   const [containerWidth, setContainerWidth] = useState(DEVICE_WIDTH);
   // 저장된 인덱스(1~5)를 소스에 매핑. 유효하지 않으면 1번 사용
   const flowerSource = FLOWER_IMAGES[(Math.max(1, Math.min((currentFlowerIndex || 1), FLOWER_IMAGE_COUNT))) - 1];
-  const resolved = Image.resolveAssetSource(flowerSource);//원본 크기 추출하기 위함
-  const availableWidth = Math.max(0, containerWidth - HORIZONTAL_PADDING * 2);
-
+ 
   const handleTextChange = (newText: string) => {
     setText(newText);
     setCurrentContent(newText);
@@ -28,14 +26,12 @@ export const TextBox = () => {
 
   // 액세서리 바는 별도 컴포넌트가 제어
 
-  // 이미지 크기를 절반으로 축소하여 렌더(가로는 컨테이너 기준, 세로는 비율 유지 후 0.5배)
-  const imageAspectHeight = (resolved?.width && resolved?.height)
-    ? ((availableWidth * resolved.height) / resolved.width) * 1
-    : 0;
-  const baseHeightForSnap = isDiaryWrittenToday
-    ? Math.max(contentHeight || 0, imageAspectHeight)
-    : (contentHeight || 0);
-  const snappedBottomY = PADDING_TOP + Math.ceil(baseHeightForSnap / LINE_HEIGHT) * LINE_HEIGHT + DEFAULT_SPACING;
+  // 작은 이미지 크기 계산 (글 옆에 배치할 작은 이미지)
+  const smallImageSize = 80; // 작은 이미지 크기 (정사각형)
+  
+  // 실제 텍스트 내용 바로 밑에 이미지가 오도록 위치 계산
+  const textBottomY = PADDING_TOP + (contentHeight || 0); // 텍스트 바로 밑
+  const commentTopY = textBottomY + smallImageSize; // 이미지 바로 밑
 
   return (
     <View style={{ flex: 1 }}>
@@ -83,16 +79,16 @@ export const TextBox = () => {
           minHeight: NUMBER_OF_LINES * LINE_HEIGHT + 24, // 패딩 포함
         }}
       />
-      {/* 이미지 */}
+      {/* 작은 이미지 - 글 바로 밑 오른쪽에 배치 */}
       {isDiaryWrittenToday ? (
         <View
           pointerEvents="none"
           style={{
             position: 'absolute',
-            left: HORIZONTAL_PADDING,
             right: HORIZONTAL_PADDING,
-            top: PADDING_TOP,
-            height: imageAspectHeight,
+            top: textBottomY,
+            width: smallImageSize,
+            height: smallImageSize,
             zIndex: 15,
           }}
         >
@@ -108,7 +104,7 @@ export const TextBox = () => {
           <View
             pointerEvents="box-none"
             className="absolute left-0 right-0 z-20 px-6"
-            style={{ top: snappedBottomY  }}
+            style={{ top: commentTopY }}
           >
             <Text 
               text={currentComment} 

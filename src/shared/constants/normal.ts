@@ -9,11 +9,10 @@ export const DEVICE_HEIGHT = height;
 
 // flower 이미지 리소스 모음 (정적 require 필요)
 export const FLOWER_IMAGES = [
-  require('../../../assets/pngs/flower1.png'),
-  require('../../../assets/pngs/flower2.png'),
-  require('../../../assets/pngs/flower3.png'),
-  require('../../../assets/pngs/flower4.png'),
-  require('../../../assets/pngs/flower5.png'),
+  require('../../../assets/Flower/Flower1.png'),
+  require('../../../assets/Flower/Flower2.png'),
+  require('../../../assets/Flower/Flower3.png'),
+  require('../../../assets/Flower/Flower4.png'),
 ] as const;
 
 export const FLOWER_IMAGE_COUNT = FLOWER_IMAGES.length;

@@ -13,7 +13,7 @@ export const useSaveDiaryFlow = () => {
   const save = useCallback(async () => {
     if (!canSave) return;
     const comment = await generateComment(currentContent);
-    const flowerIndex = getRandomInt(1, 7);
+    const flowerIndex = getRandomInt(1, 5); //1~4 사이의 랜덤 숫자 생성
     await saveDiary(comment, flowerIndex);
     await initializeDiary();
   }, [canSave, currentContent, generateComment, saveDiary, initializeDiary]);

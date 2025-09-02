@@ -7,7 +7,7 @@ interface DiaryStore {
   currentContent: string;
   currentWeather: WeatherNumber; 
   currentComment: string; 
-  currentFlowerIndex?: number; // 1~6
+  currentFlowerIndex?: number; // 1~4
   isDiaryWrittenToday: boolean;
   // UI 상태
   isLoading: boolean;
