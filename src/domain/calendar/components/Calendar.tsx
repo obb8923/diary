@@ -197,18 +197,19 @@ export const Calendar = ({ onDateSelect, selectedDate, selectedDiary }: Calendar
               {date ? (
                 <TouchableOpacity
                   onPress={() => handleDateSelect(date)}
-                  className={`w-10 h-10 justify-center items-center rounded-lg relative ${
+                  className={`w-10 h-10 justify-center items-center rounded-full relative ${
                     isSelectedDate(date)
                       ? 'bg-blue-500'
                       : isToday(date)
                       ? 'bg-blue-100'
                       : 'bg-transparent'
+                  } ${
+                    hasDiaryOnDate(date)
+                      ? 'border-2 border-blue-500'
+                      : ''
                   }`}
                 >
                   <Text text={date.getDate().toString()} type="semibold" className={getDateTextColor(date, dayIndex)} />
-                  {hasDiaryOnDate(date) && (
-                    <View className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
-                  )}
                 </TouchableOpacity>
               ) : (
                 <View className="w-10 h-10" />
