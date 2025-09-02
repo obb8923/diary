@@ -122,4 +122,85 @@ export class StorageService {
       throw new Error('일기를 초기화하는 중 오류가 발생했습니다.');
     }
   }
+
+  /**
+   * 모든 일기 데이터를 JSON 문자열로 백업합니다
+   */
+  static async exportAllDiaries(): Promise<string> {
+    try {
+      const allDiaries = await this.getAllDiaries();
+      
+      const backupData = {
+        version: '1.0',
+        exportDate: new Date().toISOString(),
+        totalEntries: allDiaries.length,
+        diaries: allDiaries
+      };
+
+      return JSON.stringify(backupData, null, 2);
+    } catch (error) {
+      console.error('일기 백업 오류:', error);
+      throw new Error('일기를 백업하는 중 오류가 발생했습니다.');
+    }
+  }
+
+  /**
+   * JSON 문자열에서 일기 데이터를 복원합니다
+   * @param jsonData 백업된 JSON 문자열
+   * @param overwrite 기존 데이터 덮어쓰기 여부 (기본값: false)
+   */
+  static async importDiaries(jsonData: string, overwrite: boolean = false): Promise<{
+    success: number;
+    skipped: number;
+    errors: number;
+  }> {
+    try {
+      const backupData = JSON.parse(jsonData);
+      
+      // 데이터 형식 검증
+      if (!backupData.diaries || !Array.isArray(backupData.diaries)) {
+        throw new Error('올바르지 않은 백업 데이터 형식입니다.');
+      }
+
+      let success = 0;
+      let skipped = 0;
+      let errors = 0;
+
+      for (const item of backupData.diaries) {
+        try {
+          const { date, entry } = item;
+          
+          // 데이터 유효성 검증
+          if (!date || !entry || typeof entry.content !== 'string') {
+            errors++;
+            continue;
+          }
+
+          // 기존 데이터 확인
+          if (!overwrite) {
+            const existingEntry = await this.getDiary(date);
+            if (existingEntry) {
+              skipped++;
+              continue;
+            }
+          }
+
+          // 일기 저장
+          await this.saveDiary(date, entry);
+          success++;
+        } catch (error) {
+          console.error(`일기 복원 오류 (${item.date}):`, error);
+          errors++;
+        }
+      }
+
+      return { success, skipped, errors };
+    } catch (error) {
+      console.error('일기 복원 오류:', error);
+      if (error instanceof SyntaxError) {
+        throw new Error('올바르지 않은 JSON 형식입니다.');
+      }
+      throw new Error('일기를 복원하는 중 오류가 발생했습니다.');
+    }
+  }
 }

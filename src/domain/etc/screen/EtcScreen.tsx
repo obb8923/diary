@@ -21,9 +21,9 @@ const MenuItem = ({ title, onPress }: { title: string; onPress: () => void }) =>
 
 export const EtcScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<EtcStackParamList>>()
-  
-  const handleMenuPress = (menuName: string) => {
-    Alert.alert('알림', `${menuName} 메뉴가 선택되었습니다.`)
+
+  const handleBackupRestorePress = () => {
+    navigation.navigate('BackupRestore')
   }
 
   const handleInquiryPress = () => {
@@ -46,13 +46,13 @@ export const EtcScreen = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingTop: 20, paddingBottom: 84 }}
       >
-          <MenuItem 
+          {/* <MenuItem 
             title="잠금 설정" 
             onPress={() => handleMenuPress('프로필 설정')} 
-          />
+          /> */}
           <MenuItem 
             title="백업 및 복원" 
-            onPress={() => handleMenuPress('백업 및 복원')} 
+            onPress={handleBackupRestorePress} 
           />
           <MenuItem 
             title="문의하기" 
