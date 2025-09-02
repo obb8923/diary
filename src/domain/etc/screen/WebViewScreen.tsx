@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { WebView } from 'react-native-webview';
+import { ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Text } from '@/shared/components/Text';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -16,7 +17,7 @@ interface WebViewScreenProps {
 
 export const WebViewScreen = ({ route }: WebViewScreenProps) => {
   const navigation = useNavigation();
-  const { url, title = '웹페이지' } = route.params;
+  const { url } = route.params;
     const insets = useSafeAreaInsets();
   return (
     <View className="flex-1 bg-white">
@@ -38,11 +39,11 @@ export const WebViewScreen = ({ route }: WebViewScreenProps) => {
         className="flex-1"
         startInLoadingState={true}
         renderLoading={() => (
-          <View className="flex-1 justify-center items-center bg-gray-100">
-            <Text text="로딩 중..." type="regular" className="text-gray-600" />
-          </View>
-        )}
-        onError={(syntheticEvent) => {
+            <View className="flex-1 justify-center items-center">
+        <ActivityIndicator size="large" color="#03a9f4" />
+        </View>
+    )}
+        onError={(syntheticEvent: any) => {
           const { nativeEvent } = syntheticEvent;
           console.warn('WebView error: ', nativeEvent);
         }}
