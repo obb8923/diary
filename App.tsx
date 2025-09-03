@@ -6,9 +6,9 @@ import { SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import {RootStack} from './src/shared/nav/stack/Root';
 import { useFirstVisitStore } from './src/shared/store/firstVisitStore';
-import {OnboardingStack} from '@nav/stack/Onboarding';
+// import {OnboardingStack} from '@nav/stack/Onboarding';
 export default function App() {
-  const { checkFirstVisit, isFirstVisit, isLoading } = useFirstVisitStore();
+  const { checkFirstVisit } = useFirstVisitStore();
 
   // 앱 시작 시 첫 방문 여부 확인
   useEffect(() => {
@@ -21,8 +21,9 @@ export default function App() {
         <SafeAreaView style={{flex:1}} edges={[ 'left', 'right']} >
               <NavigationContainer>
                 <StatusBar barStyle="dark-content" translucent={true}/>
-                {!isLoading && isFirstVisit && <OnboardingStack/>}
-                {!isLoading && !isFirstVisit && <RootStack/>}
+                {/* {!isLoading && isFirstVisit && <OnboardingStack/>} */}
+                {/* {!isLoading && !isFirstVisit && <RootStack/>} */}
+                <RootStack/>
               </NavigationContainer>
         </SafeAreaView>
       </SafeAreaProvider>

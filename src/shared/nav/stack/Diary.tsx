@@ -11,8 +11,7 @@ export const DiaryStack = () => {
     <Stack.Navigator 
     screenOptions={{headerShown:false}}
     initialRouteName="Diary">
-            <Stack.Screen name="Diary" component={DiaryScreen}/>
-           
-           </Stack.Navigator>
+      <Stack.Screen name="Diary" component={DiaryScreen}/>      
+    </Stack.Navigator>
   );
 };
