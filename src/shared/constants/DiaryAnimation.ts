@@ -45,7 +45,6 @@ export const DIARY_ANIMATION_CONSTANTS = {
     ROTATE_DURATION_MS: 800,      // 회전 애니메이션 시간
     LIFT_DURATION_MS: 700,        // 리프트 애니메이션 시간
     REVERSE_DURATION_MS: 1900,     // 역방향 애니메이션 시간
-    SMALL_SCALE: 0.5,             // 작아질 때 스케일 (SCALE.CLOSED와 동일해야 한다)
     LIFT_OFFSET: DEVICE_HEIGHT * 1.5,  // 디바이스 위로 이동 높이
     STEP_DELAY_MS: 500,           // 각 단계 간 지연 시간
     ROTATE_DEGREES: 180,          // 회전 각도 (시계방향)

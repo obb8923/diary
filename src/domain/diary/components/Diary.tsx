@@ -15,10 +15,9 @@ import { getDiaryDimensions } from "@constants/normal"
 
 export const Diary = () => {
   const insets = useSafeAreaInsets();
-  const { saveSequenceId, saveAnimationStep, setSaveAnimationStep, startClosing, startOpening, transformScale } = useAnimationStore();
+  const { saveSequenceId, saveAnimationStep, setSaveAnimationStep, startClosing, startOpening, transformScale, animateToScale } = useAnimationStore();
   
   // 애니메이션 값들
-  const scale = useSharedValue(1);
   const rotateZ = useSharedValue(0);
   const translateY = useSharedValue(0);
   
@@ -30,13 +29,13 @@ export const Diary = () => {
 
   const startScaling = useCallback(() => {
     setSaveAnimationStep('scaling');
-    scale.value = withTiming(DIARY_ANIMATION_CONSTANTS.SAVE_ANIMATION.SMALL_SCALE, {
-      duration: DIARY_ANIMATION_CONSTANTS.SAVE_ANIMATION.SCALE_DURATION_MS,
-      easing: Easing.out(Easing.cubic)
-    }, () => {
-      runOnJS(startClosingCover)();
-    });
-  }, [scale, setSaveAnimationStep, startClosingCover]);
+    // 글로벌 transformScale 사용 (뒤로가기와 동일한 효과)
+    animateToScale(DIARY_ANIMATION_CONSTANTS.SCALE.CLOSED);
+    // 애니메이션 시간 후 다음 단계로
+    setTimeout(() => {
+      startClosingCover();
+    }, DIARY_ANIMATION_CONSTANTS.SAVE_ANIMATION.SCALE_DURATION_MS);
+  }, [animateToScale, setSaveAnimationStep, startClosingCover]);
 
   const startRotating = useCallback(() => {
     setSaveAnimationStep('rotating');
@@ -84,13 +83,12 @@ export const Diary = () => {
   const startReverseScaling = useCallback(() => {
     setSaveAnimationStep('reverse_scaling');
     // 5-4. 스케일 복구 (작은크기 → 원래크기)
-    scale.value = withTiming(1, {
-      duration: DIARY_ANIMATION_CONSTANTS.SAVE_ANIMATION.SCALE_DURATION_MS,
-      easing: Easing.out(Easing.cubic)
-    }, () => {
-      runOnJS(showResult)();
-    });
-  }, [scale, setSaveAnimationStep, showResult]);
+    animateToScale(DIARY_ANIMATION_CONSTANTS.SCALE.OPENED);
+    // 애니메이션 시간 후 다음 단계로
+    setTimeout(() => {
+      showResult();
+    }, DIARY_ANIMATION_CONSTANTS.SAVE_ANIMATION.SCALE_DURATION_MS);
+  }, [animateToScale, setSaveAnimationStep, showResult]);
 
   const startOpeningCover = useCallback(() => {
     setSaveAnimationStep('opening_cover');
@@ -147,7 +145,6 @@ export const Diary = () => {
   const animatedStyle = useAnimatedStyle(() => {
     return {
       transform: [
-        { scale: scale.value },
         { rotateZ: `${rotateZ.value}deg` },
         { translateY: translateY.value }
       ],

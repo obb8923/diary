@@ -85,7 +85,7 @@ export const KeyboardAccessoryBar= () => {
           <Text text="← 뒤로가기" type="kb2023" className="text-text-blue" />
         </TouchableOpacity>
         
-        {showSave && (
+        {showSave && !isSaving && (
           <Animated.View 
           style={{ zIndex: 1 }}
           {...(Platform.OS === 'ios' && {
@@ -100,7 +100,7 @@ export const KeyboardAccessoryBar= () => {
               disabled={isSaving}
             >
               <Text
-                text={isSaving ? '저장중...' : '다 적었어요!'}
+                text="다 적었어요!"
                 type="kb2023"
                 className="text-blue-100"
               />
