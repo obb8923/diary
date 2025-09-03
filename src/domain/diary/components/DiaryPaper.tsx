@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { View, TouchableOpacity, Modal, Platform } from 'react-native'
+import { View, TouchableOpacity, Modal, Platform, Image, ScrollView } from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { Text } from '@components/Text'
 import { TextBox } from '@components/TextBox'
 import { WeatherSelector } from './WeatherSelector'
+import { KeyboardAccessoryBar } from './KeyboardAccessoryBar'
 import { useDiary } from '../../../shared/libs/hooks/useDiary'
 import { formatSelectedDate } from '../../../shared/libs/date'
 import { useAnimationStore } from '@store/animationStore'
 import { DIARY_ANIMATION_CONSTANTS } from '@constants/DiaryAnimation'
-import { dateStyle } from '@constants/normal'
+import { dateStyle, commentStyle, FLOWER_IMAGES, SMALL_IMAGE_SIZE, PADDING_TOP, HORIZONTAL_PADDING, NUMBER_OF_LINES, LINE_HEIGHT, TEXT_SIZE, MIN_TEXT_HEIGHT } from '@constants/normal'
 
 export const DiaryPaper = () => {
-  const { currentDate, isDiaryWrittenToday, changeDate } = useDiary()
+  const { currentDate, isDiaryWrittenToday, changeDate, currentContent, currentComment, currentFlowerIndex } = useDiary()
   const [showDatePicker, setShowDatePicker] = useState(false)
   const { year, month, day } = formatSelectedDate(currentDate)
   
@@ -121,12 +122,80 @@ export const DiaryPaper = () => {
           />
         )
       )}
-      {/* 일기장 내용 - 실제 글을 작성하는 영역 */}
+      {/* 일기장 내용 */}
       <View className="flex-1">
-        <TextBox />
+        {isDiaryWrittenToday ? (
+          // 일기가 이미 존재하는 경우 - 스크롤 가능한 읽기 전용 뷰
+          <ScrollView 
+            className="flex-1"
+            showsVerticalScrollIndicator={true}
+            contentContainerStyle={{ flexGrow: 1 }}
+          >
+            <View className="relative" style={{ minHeight: MIN_TEXT_HEIGHT }}>
+              {/* 라인 배경 */}
+              <View className="absolute inset-0" style={{ paddingTop: PADDING_TOP, paddingLeft: 16, paddingRight: 16 }}>
+                {Array.from({ length: NUMBER_OF_LINES }, (_, index) => (
+                  <View
+                    key={index}
+                    className="border-b border-line"
+                    style={{ height: LINE_HEIGHT, marginBottom: 0 }}
+                  />
+                ))}
+              </View>
+
+              {/* 내용 */}
+              <View className="py-3 px-6">
+                <Text
+                  text={currentContent}
+                  type="kb2019"
+                  className="text-text-black"
+                  style={{ 
+                    fontSize: TEXT_SIZE,
+                    lineHeight: LINE_HEIGHT, 
+                    textAlignVertical: 'top', 
+                  }}
+                />
+              </View>
+
+              {/* 작은 이미지 - 글 바로 밑 오른쪽에 배치 */}
+              {currentFlowerIndex && (
+                <View
+                  pointerEvents="none"
+                  className="flex-row items-center justify-end w-full z-15"
+                  style={{ paddingRight: HORIZONTAL_PADDING}}
+                >
+                  <Image
+                    source={FLOWER_IMAGES[(Math.max(1, Math.min(currentFlowerIndex, FLOWER_IMAGES.length)) - 1)]}
+                    resizeMode="contain"
+                    style={{ width: SMALL_IMAGE_SIZE, height: SMALL_IMAGE_SIZE }}
+                  />
+                </View>
+              )}
+
+              {/* 코멘트 - 작은 이미지 바로 아래에 배치 */}
+              {currentComment && (
+                <View
+                  pointerEvents="none"
+                  className="z-20 px-6 pb-24"
+                >
+                  <Text
+                    text={currentComment}
+                    type="kb2023"
+                    className={commentStyle}
+                    style={{ transform: [{ rotate: '-1deg' }] }}
+                  />
+                </View>
+              )}
+            </View>
+          </ScrollView>
+        ) : (
+          // 일기가 없는 경우 - 기존처럼 TextBox로 작성
+          <TextBox />
+        )}
       </View>
       
-   
+      {/* 키보드 액세서리 바 */}
+      <KeyboardAccessoryBar />
     </View>
   )
 }

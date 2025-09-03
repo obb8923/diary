@@ -41,9 +41,22 @@ export const useDiary = () => {
       console.error('다이어리 초기화 오류:', error);
     }
   };
-  // 초기화 로직
+  // 초기화 로직 - 처음 한 번만 오늘 날짜로 초기화
   useEffect(() => {
-    initializeDiary();
+    // 현재 날짜가 초기값(오늘)이고 내용이 비어있을 때만 초기화
+    const today = new Date();
+    const currentDateString = formatDate(store.currentDate);
+    const todayString = formatDate(today);
+    
+    // 초기 상태인지 확인 (오늘 날짜이고 내용이 비어있음)
+    const isInitialState = currentDateString === todayString && 
+                          !store.currentContent && 
+                          !store.currentComment && 
+                          !store.isDiaryWrittenToday;
+    
+    if (isInitialState) {
+      initializeDiary();
+    }
   }, []); // 빈 의존성 배열로 한 번만 실행
   
   // 일기 저장 함수
