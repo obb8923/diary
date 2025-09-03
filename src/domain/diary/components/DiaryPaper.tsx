@@ -87,17 +87,17 @@ export const DiaryPaper = () => {
         <Modal
           visible={showDatePicker}
           transparent={true}
-          animationType="slide"
+          animationType="fade"
           onRequestClose={() => setShowDatePicker(false)}
         >
           <View className="flex-1 justify-end bg-black/50">
-            <View className="bg-white">
-              <View className="flex-row justify-between items-center p-4 border-b border-gray-200">
-                <TouchableOpacity onPress={() => setShowDatePicker(false)}>
-                  <Text text="취소" type="regular" className="text-blue-500 text-lg" />
+            <View className="bg-white items-center">
+              <View className="w-full flex-row justify-between items-center p-4 border-b border-gray-200">
+                <TouchableOpacity onPress={() => changeDate(new Date())}>
+                  <Text text="오늘 날짜" type="regular" className="text-gray-700 text-lg" />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => setShowDatePicker(false)}>
-                  <Text text="완료" type="regular" className="text-blue-500 text-lg font-semibold" />
+                  <Text text="완료" type="regular" className="text-blue-600 text-lg font-semibold" />
                 </TouchableOpacity>
               </View>
               <DateTimePicker

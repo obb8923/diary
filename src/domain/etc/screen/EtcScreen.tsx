@@ -29,7 +29,7 @@ export const EtcScreen = () => {
   const handleInquiryPress = () => {
     navigation.navigate('WebView', {
       url: 'https://docs.google.com/forms/d/1UwFIDg3nLWFeGyZTOcXMOe4Nvoy5z6NtjOu3rtB8RLc/edit',
-      title: '문의하기'
+      title: '건의사항 및 의견 보내기'
     })
   }
 
@@ -55,7 +55,7 @@ export const EtcScreen = () => {
             onPress={handleBackupRestorePress} 
           />
           <MenuItem 
-            title="문의하기" 
+            title="건의사항 및 의견 보내기" 
             onPress={handleInquiryPress} 
           />
 
