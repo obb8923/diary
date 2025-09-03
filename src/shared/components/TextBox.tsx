@@ -26,11 +26,6 @@ export const TextBox = () => {
     setText(currentContent || '');
   }, [currentContent]);
 
-  
-  // 실제 텍스트 내용 바로 밑에 이미지가 오도록 위치 계산
-  const textBottomY = PADDING_TOP + (contentHeight || 0); // 텍스트 바로 밑
-  const commentTopY = textBottomY + SMALL_IMAGE_SIZE; // 이미지 바로 밑
-
   return (
     <View style={{ flex: 1 }}>
       <KeyboardAwareScrollView
@@ -40,82 +35,86 @@ export const TextBox = () => {
         keyboardShouldPersistTaps="handled"
         extraScrollHeight={24}
       >
-        <View className="flex-1 relative">
-      {/* 일기장 라인 배경 */}
-      <View className="absolute inset-0" style={{ paddingTop: PADDING_TOP, paddingLeft: HORIZONTAL_PADDING, paddingRight: HORIZONTAL_PADDING }}>
-        {Array.from({ length: NUMBER_OF_LINES }, (_, index) => (
-          <View
-            key={index}
-            className="border-b border-line"
+        <View className="flex-1">
+          {/* 일기장 라인 배경 */}
+          <View className="absolute inset-0" style={{ paddingTop: PADDING_TOP, paddingLeft: HORIZONTAL_PADDING, paddingRight: HORIZONTAL_PADDING }}>
+            {Array.from({ length: NUMBER_OF_LINES }, (_, index) => (
+              <View
+                key={index}
+                className="border-b border-line"
+                style={{
+                  height: LINE_HEIGHT,
+                  marginBottom: 0,
+                }}
+              />
+            ))}
+          </View>
+          
+          {/* TextInput 영역 */}
+          <TextInput
+            className="font-kb2019 text-text-black bg-transparent px-6"
+            inputAccessoryViewID={'DiaryAccessory'}
+            value={text}
+            onChangeText={handleTextChange}
+            multiline
+            selectionColor="rgba(0, 0, 0, 0.3)"
+            onContentSizeChange={(e) => {
+              const h = e.nativeEvent.contentSize.height;
+              setContentHeight(h);
+            }}
+            editable={!isDiaryWrittenToday}
+            selectTextOnFocus={false}
+            caretHidden={isDiaryWrittenToday}
             style={{
-              height: LINE_HEIGHT,
-              marginBottom: 0,
+              fontFamily: 'KyoboHandwriting2019',
+              fontSize: TEXT_SIZE,
+              lineHeight: LINE_HEIGHT,
+              textAlignVertical: 'top',
+              height: Math.max(MIN_TEXT_HEIGHT, contentHeight + PADDING_TOP + TEXT_AREA_PADDING_VERTICAL),
+              paddingTop: PADDING_TOP,
+              paddingBottom: TEXT_AREA_PADDING_VERTICAL,
+              paddingHorizontal: HORIZONTAL_PADDING,
+              ...(Platform.OS === 'android' && { includeFontPadding: false }),
             }}
           />
-        ))}
-      </View>
-      
-      <TextInput
-        className="font-kb2019 text-text-black bg-transparent relative z-10"
-        inputAccessoryViewID={'DiaryAccessory'}
-        value={text}
-        onChangeText={handleTextChange}
-        multiline
-        selectionColor="rgba(0, 0, 0, 0.3)"
-        onContentSizeChange={(e) => {
-          const h = e.nativeEvent.contentSize.height;
-          setContentHeight(h);
-        }}
-        editable={!isDiaryWrittenToday}
-        selectTextOnFocus={false}
-        caretHidden={isDiaryWrittenToday}
-        style={{
-          fontFamily: 'KyoboHandwriting2019',
-          fontSize: TEXT_SIZE,
-          lineHeight: LINE_HEIGHT,
-          textAlignVertical: 'top',
-          minHeight: MIN_TEXT_HEIGHT, // 라인 배경과 패딩을 고려한 정확한 최소 높이
-          paddingTop: PADDING_TOP,
-          paddingBottom: TEXT_AREA_PADDING_VERTICAL,
-          paddingHorizontal: HORIZONTAL_PADDING,
-          ...(Platform.OS === 'android' && { includeFontPadding: false }),
-        }}
-      />
-      {/* 작은 이미지 - 글 바로 밑 오른쪽에 배치 - scale이 1일 때만 표시 */}
-      {isDiaryWrittenToday && transformScale === DIARY_ANIMATION_CONSTANTS.SCALE.OPENED ? (
-        <View
-          pointerEvents="none"
-          style={{
-            position: 'absolute',
-            right: HORIZONTAL_PADDING,
-            top: textBottomY,
-            width: SMALL_IMAGE_SIZE,
-            height: SMALL_IMAGE_SIZE,
-            zIndex: 15,
-          }}
-        >
-          <Image
-            source={flowerSource}
-            resizeMode="contain"
-            style={{ width: '100%', height: '100%' }}
-          />
-        </View>
-      ) : null}
-  
-        {currentComment && transformScale === DIARY_ANIMATION_CONSTANTS.SCALE.OPENED ? (
-          <View
-            pointerEvents="box-none"
-            className="absolute left-0 right-0 z-20"
-            style={{ top: commentTopY, paddingLeft: HORIZONTAL_PADDING, paddingRight: HORIZONTAL_PADDING }}
-          >
-            <Text 
-              text={currentComment} 
-              type="kb2023" 
-              className={commentStyle}
-              style={{ transform: [{ rotate: '-1deg' }] }}
-            />
-          </View>
-        ) : null}
+
+          {/* 작은 이미지 - TextInput 바로 밑 오른쪽에 배치 */}
+          {isDiaryWrittenToday && transformScale === DIARY_ANIMATION_CONSTANTS.SCALE.OPENED && (
+            <View
+              pointerEvents="none"
+              style={{
+                alignSelf: 'flex-end',
+                marginRight: HORIZONTAL_PADDING,
+                marginTop: 8,
+                width: SMALL_IMAGE_SIZE,
+                height: SMALL_IMAGE_SIZE,
+              }}
+            >
+              <Image
+                source={flowerSource}
+                resizeMode="contain"
+                style={{ width: '100%', height: '100%' }}
+              />
+            </View>
+          )}
+
+          {/* 코멘트 - 이미지 바로 밑에 배치 */}
+          {currentComment && transformScale === DIARY_ANIMATION_CONSTANTS.SCALE.OPENED && (
+            <View
+              pointerEvents="box-none"
+              style={{
+                marginTop: isDiaryWrittenToday ? 8 : 16,
+                paddingHorizontal: HORIZONTAL_PADDING,
+              }}
+            >
+              <Text 
+                text={currentComment} 
+                type="kb2023" 
+                className={commentStyle}
+                style={{ transform: [{ rotate: '-1deg' }] }}
+              />
+            </View>
+          )}
         </View>
        
       </KeyboardAwareScrollView>

@@ -8,25 +8,34 @@ import { formatDate } from '../date';
 
 export const useDiary = () => {
   const store = useDiaryStore();
-  const initializeDiary = async () => {
+  const initializeDiary = async (targetDate?: Date) => {
     try {
-      const today = new Date();
-      const todayString = formatDate(today);
+      const dateToUse = targetDate || new Date();
+      const dateString = formatDate(dateToUse);
       
-      // 오늘 날짜의 일기가 있는지 확인
-      const todayEntry = await StorageService.getDiary(todayString);
+      // 해당 날짜의 일기가 있는지 확인
+      const diaryEntry = await StorageService.getDiary(dateString);
       
-      if (todayEntry) {
-        // 오늘 일기가 있으면 해당 내용으로 설정
-        store.setCurrentDate(today);
-        store.setCurrentContent(todayEntry.content);
-        store.setCurrentWeather(todayEntry.weather as WeatherNumber);
-        store.setCurrentComment(todayEntry.comment || ''); // AI 코멘트도 설정
-        store.setCurrentFlowerIndex(todayEntry.flowerIndex);
+      if (diaryEntry) {
+        // 일기가 있으면 해당 내용으로 설정
+        store.setCurrentDate(dateToUse);
+        store.setCurrentContent(diaryEntry.content);
+        store.setCurrentWeather(diaryEntry.weather as WeatherNumber);
+        store.setCurrentComment(diaryEntry.comment || ''); // AI 코멘트도 설정
+        store.setCurrentFlowerIndex(diaryEntry.flowerIndex);
         store.setisDiaryWrittenToday(true);
-      } 
+      } else {
+        // 일기가 없으면 해당 날짜로 새로운 일기 상태로 설정
+        store.setCurrentDate(dateToUse);
+        store.setCurrentContent('');
+        store.setCurrentWeather(0);
+        store.setCurrentComment('');
+        store.setCurrentFlowerIndex(1);
+        store.setisDiaryWrittenToday(false);
+      }
+      
       if(__DEV__) {
-        console.log('다이어리가 초기화되었습니다. 오늘 날짜:', todayString);
+        console.log('다이어리가 초기화되었습니다. 날짜:', dateString);
       }
     } catch (error) {
       console.error('다이어리 초기화 오류:', error);
@@ -61,6 +70,7 @@ export const useDiary = () => {
       // 현재 상태에도 저장
       store.setCurrentComment(comment);
       store.setCurrentFlowerIndex(flowerIndex);
+      store.setisDiaryWrittenToday(true); // 저장 후 일기 작성 완료 상태로 변경
       
       store.setIsLoading(false);
       
@@ -74,6 +84,41 @@ export const useDiary = () => {
       store.setIsLoading(false);
       console.error('일기 저장 오류:', error);
       throw error;
+    }
+  }, [store]);
+  
+  // 날짜 변경 함수 추가
+  const changeDate = useCallback(async (newDate: Date) => {
+    try {
+      const dateString = formatDate(newDate);
+      
+      // 해당 날짜의 일기가 있는지 확인
+      const diaryEntry = await StorageService.getDiary(dateString);
+      
+      // 날짜 설정
+      store.setCurrentDate(newDate);
+      
+      if (diaryEntry) {
+        // 일기가 있으면 기존 내용으로 설정
+        store.setCurrentContent(diaryEntry.content);
+        store.setCurrentWeather(diaryEntry.weather as WeatherNumber);
+        store.setCurrentComment(diaryEntry.comment || '');
+        store.setCurrentFlowerIndex(diaryEntry.flowerIndex);
+        store.setisDiaryWrittenToday(true);
+      } else {
+        // 일기가 없으면 새로운 일기 상태로 초기화
+        store.setCurrentContent('');
+        store.setCurrentWeather(0); // 기본값: 맑음
+        store.setCurrentComment('');
+        store.setCurrentFlowerIndex(1);
+        store.setisDiaryWrittenToday(false);
+      }
+      
+      if(__DEV__) {
+        console.log('날짜가 변경되었습니다:', dateString);
+      }
+    } catch (error) {
+      console.error('날짜 변경 오류:', error);
     }
   }, [store]);
   
@@ -96,5 +141,6 @@ export const useDiary = () => {
     setCurrentFlowerIndex: store.setCurrentFlowerIndex,
     initializeDiary,
     saveDiary,
+    changeDate, // 새로 추가
   };
 };
