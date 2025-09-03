@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, Image, Dimensions } from 'react-native';
 import { Text } from '@components/Text';
 import { CalendarBottomPanel } from './CalendarBottomPanel';
 import { DiaryEntry } from '@/shared/types/diary';
@@ -14,6 +14,13 @@ interface CalendarProps {
 export const Calendar = ({ onDateSelect, selectedDate, selectedDiary }: CalendarProps) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [diaryDates, setDiaryDates] = useState<Set<string>>(new Set());
+  
+  // 화면 크기에 따른 동적 셀 크기 계산
+  const screenWidth = Dimensions.get('window').width;
+  const calendarPadding = 32; // p-4 * 2 = 16px * 2
+  const availableWidth = screenWidth - calendarPadding;
+  const cellWidth = availableWidth / 7;
+  const cellHeight = Math.max(48, cellWidth * 0.8); // 최소 48px, 최대 셀 너비의 80%
   
   // 현재 월의 일기가 있는 날짜들을 불러오기
   useEffect(() => {
@@ -193,26 +200,53 @@ export const Calendar = ({ onDateSelect, selectedDate, selectedDiary }: Calendar
       {weeks.map((week, weekIndex) => (
         <View key={weekIndex} className="flex-row">
           {week.map((date, dayIndex) => (
-            <View key={dayIndex} className="flex-1 h-12 justify-center items-center">
+            <View 
+              key={dayIndex} 
+              className="flex-1 justify-center items-center"
+              style={{ height: cellHeight }}
+            >
               {date ? (
                 <TouchableOpacity
                   onPress={() => handleDateSelect(date)}
-                  className={`w-10 h-10 justify-center items-center rounded-full relative ${
+                  className={`justify-center items-center rounded-lg relative ${
                     isSelectedDate(date)
                       ? 'bg-blue-500'
                       : isToday(date)
                       ? 'bg-blue-100'
                       : 'bg-transparent'
-                  } ${
-                    hasDiaryOnDate(date)
-                      ? 'border-2 border-blue-500'
-                      : ''
                   }`}
+                  style={{
+                    width: Math.min(cellWidth * 0.8, 44), // 셀 너비의 80% 또는 최대 44px
+                    height: Math.min(cellWidth * 0.8, 44),
+                  }}
                 >
-                  <Text text={date.getDate().toString()} type="semibold" className={getDateTextColor(date, dayIndex)} />
+                  {/* 일기가 있는 날에 circle.webp 이미지 표시 */}
+                  {hasDiaryOnDate(date) && (
+                    <Image
+                      source={require('../../../../assets/webp/circle.webp')}
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: Math.min(cellWidth * 0.8, 44),
+                        height: Math.min(cellWidth * 0.8, 44),
+                        zIndex: 0,
+                        resizeMode: 'contain',
+                      }}
+                    />
+                  )}
+                  <Text 
+                    text={date.getDate().toString()} 
+                    type="semibold" 
+                    className={getDateTextColor(date, dayIndex)}
+                    style={{ zIndex: 10 }}
+                  />
                 </TouchableOpacity>
               ) : (
-                <View className="w-10 h-10" />
+                <View style={{ 
+                  width: Math.min(cellWidth * 0.8, 44), 
+                  height: Math.min(cellWidth * 0.8, 44) 
+                }} />
               )}
             </View>
           ))}
