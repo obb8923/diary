@@ -1,4 +1,4 @@
-import { Dimensions} from "react-native";
+import { Dimensions, Platform} from "react-native";
 import { EdgeInsets } from "react-native-safe-area-context";
 import { getRandomIndex } from "../libs/random";
 
@@ -29,7 +29,8 @@ export const pickRandomFlower = () => {
 
 // 텍스트 및 레이아웃 관련 상수
 export const TEXT_SIZE = 20; 
-export const LINE_HEIGHT = TEXT_SIZE * 1.4; // 텍스트 크기의 1.4배 (28)
+// 플랫폼별 줄 간격 - Android는 폰트 렌더링으로 인해 약간 더 큰 간격 필요
+export const LINE_HEIGHT = Platform.OS === 'android' ? TEXT_SIZE * 1.6 : TEXT_SIZE * 1.4; // Android: 30, iOS: 28
 export const PADDING_TOP = 12;
 export const HORIZONTAL_PADDING = 16;
 export const DEFAULT_SPACING = 40;

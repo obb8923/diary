@@ -3,7 +3,7 @@ import { TextInput, View, Image, Platform } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Text } from '@components/Text';
 import { useDiary } from '@libs/hooks/useDiary';
-import { FLOWER_IMAGES, FLOWER_IMAGE_COUNT,TEXT_SIZE, LINE_HEIGHT, PADDING_TOP, HORIZONTAL_PADDING, NUMBER_OF_LINES, SMALL_IMAGE_SIZE, commentStyle, MIN_TEXT_HEIGHT } from '@constants/normal';
+import { FLOWER_IMAGES, FLOWER_IMAGE_COUNT,TEXT_SIZE, LINE_HEIGHT, PADDING_TOP, HORIZONTAL_PADDING, NUMBER_OF_LINES, SMALL_IMAGE_SIZE, commentStyle, MIN_TEXT_HEIGHT, TEXT_AREA_PADDING_VERTICAL } from '@constants/normal';
 import { KeyboardAccessoryBar } from '@/domain/diary/components/KeyboardAccessoryBar';
 import { useAnimationStore } from '@store/animationStore';
 import { DIARY_ANIMATION_CONSTANTS } from '@constants/DiaryAnimation';
@@ -56,7 +56,7 @@ export const TextBox = () => {
       </View>
       
       <TextInput
-        className="font-kb2019 text-text-black py-3 px-6 bg-transparent relative z-10"
+        className="font-kb2019 text-text-black bg-transparent relative z-10"
         inputAccessoryViewID={'DiaryAccessory'}
         value={text}
         onChangeText={handleTextChange}
@@ -75,6 +75,10 @@ export const TextBox = () => {
           lineHeight: LINE_HEIGHT,
           textAlignVertical: 'top',
           minHeight: MIN_TEXT_HEIGHT, // 라인 배경과 패딩을 고려한 정확한 최소 높이
+          paddingTop: PADDING_TOP,
+          paddingBottom: TEXT_AREA_PADDING_VERTICAL,
+          paddingHorizontal: HORIZONTAL_PADDING,
+          ...(Platform.OS === 'android' && { includeFontPadding: false }),
         }}
       />
       {/* 작은 이미지 - 글 바로 밑 오른쪽에 배치 - scale이 1일 때만 표시 */}
@@ -101,8 +105,8 @@ export const TextBox = () => {
         {currentComment && transformScale === DIARY_ANIMATION_CONSTANTS.SCALE.OPENED ? (
           <View
             pointerEvents="box-none"
-            className="absolute left-0 right-0 z-20 px-6"
-            style={{ top: commentTopY }}
+            className="absolute left-0 right-0 z-20"
+            style={{ top: commentTopY, paddingLeft: HORIZONTAL_PADDING, paddingRight: HORIZONTAL_PADDING }}
           >
             <Text 
               text={currentComment} 
