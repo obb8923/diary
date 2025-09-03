@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { DiaryEntry } from '../types/diary';
+import { STORAGE_KEYS } from '../constants/normal';
 
 export class StorageService {
   private static readonly DIARY_KEY_PREFIX = '@diary_';
@@ -201,6 +202,44 @@ export class StorageService {
         throw new Error('올바르지 않은 JSON 형식입니다.');
       }
       throw new Error('일기를 복원하는 중 오류가 발생했습니다.');
+    }
+  }
+
+  /**
+   * 앱 첫 방문 여부를 확인합니다
+   * @returns 첫 방문이면 true, 아니면 false
+   */
+  static async isFirstVisit(): Promise<boolean> {
+    try {
+      const value = await AsyncStorage.getItem(STORAGE_KEYS.FIRST_VISIT);
+      return value === null; // 값이 없으면 첫 방문
+    } catch (error) {
+      console.error('첫 방문 확인 오류:', error);
+      return true; // 오류 시 첫 방문으로 간주
+    }
+  }
+
+  /**
+   * 첫 방문 완료 상태로 설정합니다
+   */
+  static async setFirstVisitCompleted(): Promise<void> {
+    try {
+      await AsyncStorage.setItem(STORAGE_KEYS.FIRST_VISIT, 'completed');
+    } catch (error) {
+      console.error('첫 방문 설정 오류:', error);
+      throw new Error('첫 방문 설정 중 오류가 발생했습니다.');
+    }
+  }
+
+  /**
+   * 첫 방문 상태를 초기화합니다 (테스트용)
+   */
+  static async resetFirstVisit(): Promise<void> {
+    try {
+      await AsyncStorage.removeItem(STORAGE_KEYS.FIRST_VISIT);
+    } catch (error) {
+      console.error('첫 방문 초기화 오류:', error);
+      throw new Error('첫 방문 초기화 중 오류가 발생했습니다.');
     }
   }
 }

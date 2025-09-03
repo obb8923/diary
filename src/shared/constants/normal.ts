@@ -4,6 +4,11 @@ import { getRandomIndex } from "../libs/random";
 
 const { width, height } = Dimensions.get('window');
 
+// AsyncStorage 키 상수
+export const STORAGE_KEYS = {
+  FIRST_VISIT: '@diary_first_visit',
+} as const;
+
 export const DEVICE_WIDTH = width;
 export const DEVICE_HEIGHT = height;
 
