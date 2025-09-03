@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { DiaryPreview } from './DiaryPreview';
 import { DiaryEntry } from '@/shared/types/diary';
+import { Text } from '@components/Text';
 
 interface CalendarBottomPanelProps {
   selectedDate: Date | null;
@@ -28,13 +29,9 @@ export const CalendarBottomPanel = ({
       {selectedDiary ? (
         <DiaryPreview date={selectedDate} entry={selectedDiary} />
       ) : (
-        <View className="p-4 rounded-lg">
-          <Text className="text-lg font-p-semibold text-blue-800 mb-2">
-            {formatSelectedDateLabel(selectedDate)}
-          </Text>
-          <Text className="text-md text-blue-600 font-p-medium">
-            이 날짜에 일기를 작성해보세요!
-          </Text>
+        <View className="px-4 pb-4 rounded-lg">
+          <Text text={formatSelectedDateLabel(selectedDate)} type="semibold" className="text-lg font-p-semibold text-blue-800 mb-2" />
+          <Text text="작성된 일기가 없습니다." type="semibold" className="text-md text-blue-600 font-p-semibold" />
         </View>
       )}
     </View>
