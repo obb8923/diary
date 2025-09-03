@@ -1,24 +1,21 @@
-// import { createNativeStackNavigator } from "@react-navigation/native-stack";
-// import { Onboarding1Screen } from "../../screens/Onboarding/Onboarding1";
-// import { Onboarding2Screen } from "../../screens/Onboarding/Onboarding2";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Onboarding1Screen } from "@domain/onboarding/screen/Onboarding1";
 
-// const Stack = createNativeStackNavigator<OnboardingStackParamList>();
+const Stack = createNativeStackNavigator<OnboardingStackParamList>();
 
-// export type OnboardingStackParamList = {
-//  Onboarding1:undefined,
-//  Onboarding2:undefined,
+export type OnboardingStackParamList = {
+ Onboarding1:undefined,
 
-// };
+};
 
-// export const OnboardingStack = () => {
-//     return (
-//         <Stack.Navigator 
-//         screenOptions={{headerShown:false}}
-//         initialRouteName="Onboarding1">
+export const OnboardingStack = () => {
+    return (
+        <Stack.Navigator 
+        screenOptions={{headerShown:false}}
+        initialRouteName="Onboarding1">
 
-//             <Stack.Screen name="Onboarding1" component={Onboarding1Screen} />
-//             <Stack.Screen name="Onboarding2" component={Onboarding2Screen} />
+            <Stack.Screen name="Onboarding1" component={Onboarding1Screen} />
 
-//         </Stack.Navigator>  
-//     )
-// }
+        </Stack.Navigator>  
+    )
+}
