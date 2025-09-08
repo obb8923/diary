@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "diary.app"
-               BlueprintName = "diary"
-               ReferencedContainer = "container:diary.xcodeproj">
+               BuildableName = "hanadiary.app"
+               BlueprintName = "hanadiary"
+               ReferencedContainer = "container:hanadiary.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,7 +35,7 @@
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
                BuildableName = "diaryTests.xctest"
                BlueprintName = "diaryTests"
-               ReferencedContainer = "container:diary.xcodeproj">
+               ReferencedContainer = "container:hanadiary.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,8 +55,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "diary.app"
-            BlueprintName = "diary"
+            BuildableName = "hanadiary.app"
+            BlueprintName = "hanadiary"
             ReferencedContainer = "container:diary.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -72,8 +72,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "diary.app"
-            BlueprintName = "diary"
+            BuildableName = "hanadiary.app"
+            BlueprintName = "hanadiary"
             ReferencedContainer = "container:diary.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
